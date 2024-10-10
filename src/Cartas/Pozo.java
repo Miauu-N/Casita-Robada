@@ -1,17 +1,24 @@
 package Cartas;
 
+import Exceptions.NoCardsException;
+
 import java.util.Stack;
 
 public class Pozo {
-    Stack<Carta> pozo;
+    private Stack<Carta> pozo;
+    int cantidad;
 
     public Pozo() {
         pozo = new Stack<>();
     }
 
-    public Carta getTope(){
+    public int getCantidad() {
+        return this.cantidad;
+    }
+
+    public Carta getTope() throws NoCardsException {
         if (pozo.isEmpty()){
-            return null;
+            throw new NoCardsException();
         }
         else {
             return pozo.peek();
@@ -20,5 +27,6 @@ public class Pozo {
 
     public void agregarCarta(Carta carta){
         pozo.push(carta);
+        cantidad++;
     }
 }

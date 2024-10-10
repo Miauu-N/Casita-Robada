@@ -14,4 +14,18 @@ public class Mesa {
     public void agregarCarta(Carta carta){
         cartas.add(carta);
     }
+
+    public void mostrarCartas() {
+        for (Carta c : cartas){
+            System.out.println(c);
+        }
+    }
+
+    public Carta verCarta(int seleccionada) {
+        return cartas.get(seleccionada);
+    }
+
+    public Carta tomarCarta(int seleccionada) {
+        return cartas.remove(seleccionada);
+    }
 }

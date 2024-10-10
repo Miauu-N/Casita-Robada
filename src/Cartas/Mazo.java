@@ -1,9 +1,10 @@
 package Cartas;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Mazo {
-    ArrayList<Carta> cartas;
+    private ArrayList<Carta> cartas;
 
     public Mazo() {
         cartas = new ArrayList<>();
@@ -13,10 +14,18 @@ public class Mazo {
         palos.add(Palo.trebol);
         palos.add(Palo.pica);
 
-        for (int i = 0; i < 14; i++) {
+        for (int i = 1; i < 14; i++) {
             for (Palo palo : palos) {
                 cartas.add(new Carta(palo,i));
             }
         }
+    }
+
+    public Carta agarrarCarta() {
+        return cartas.removeFirst();
+    }
+
+    public void mezclar() {
+        Collections.shuffle(cartas);
     }
 }

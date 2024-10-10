@@ -2,17 +2,25 @@ package Main;
 
 import Cartas.*;
 
+import java.util.ArrayList;
+
 public class Jugador {
-    String nombre;
-    Mazo mazo;
-    Pozo pozo;
-    int puntos;
+    private String nombre;
+    private Mazo mazo;
+    private Pozo pozo;
+    private int puntos;
+    private ArrayList<Carta> mano;
+
+    public ArrayList<Carta> getMano() {
+        return this.mano;
+    }
 
     public Jugador(String nombre) {
         this.nombre = nombre;
         this.mazo = null;
         this.pozo = new Pozo();
-        puntos = 0;
+        this.puntos = 0;
+        this.mano = new ArrayList<>();
     }
 
     public void darMazo(Mazo mazo){
@@ -41,5 +49,23 @@ public class Jugador {
 
     public void quitarPuntos(int cantidad){
         agregarPuntos(-cantidad);
+    }
+
+    public void darCarta(Carta carta){
+        this.mano.add(carta);
+    }
+
+    public void mostrarCartas(){
+        for (Carta c : mano){
+            System.out.println(c);
+        }
+    }
+
+    public Carta getCarta(int indice) {
+        return mano.remove(indice);
+    }
+
+    public void agregarPozo(Carta carta) {
+        pozo.agregarCarta(carta);
     }
 }
