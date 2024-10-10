@@ -28,4 +28,8 @@ public class Mazo {
     public void mezclar() {
         Collections.shuffle(cartas);
     }
+
+    public int cantCartas(){
+        return cartas.size();
+    }
 }

@@ -29,4 +29,10 @@ public class Pozo {
         pozo.push(carta);
         cantidad++;
     }
+
+    public void pasarCartas(Pozo pozo) {
+        while (!this.pozo.isEmpty()){
+            pozo.pozo.add(this.pozo.removeLast());
+        }
+    }
 }

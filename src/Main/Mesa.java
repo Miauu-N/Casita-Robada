@@ -28,4 +28,17 @@ public class Mesa {
     public Carta tomarCarta(int seleccionada) {
         return cartas.remove(seleccionada);
     }
+
+    public int cantCartas() {
+        return cartas.size();
+    }
+
+    public boolean tiene(int numero) {
+        for (Carta c : cartas){
+            if (c.getNumero() == numero){
+                return  true;
+            }
+        }
+        return false;
+    }
 }

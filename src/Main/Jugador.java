@@ -68,4 +68,9 @@ public class Jugador {
     public void agregarPozo(Carta carta) {
         pozo.agregarCarta(carta);
     }
+
+    @Override
+    public String toString() {
+        return nombre;
+    }
 }
