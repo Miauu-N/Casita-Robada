@@ -24,4 +24,18 @@ public class Equipo {
     public void agregarPuntos(int cantidad){
         this.puntos += cantidad;
     }
+
+    public void sumarPuntos(){
+        int resultado = 0;
+        for (Jugador j : jugadores){
+            resultado += j.getPuntos();
+        }
+        this.puntos = resultado;
+    }
+
+    @Override
+    public String toString() {
+        sumarPuntos();
+        return nombre + ": " + puntos;
+    }
 }

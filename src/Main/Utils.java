@@ -14,6 +14,7 @@ public class Utils {
                 System.out.println("Sin cartas");
             }
             System.out.println("Cantidad de cartas: " + j.getPozo().getCantidad());
+            System.out.println();
         }
     }
 }
