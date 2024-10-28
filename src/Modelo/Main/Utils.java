@@ -1,6 +1,6 @@
-package Main;
+package Modelo.Main;
 
-import Exceptions.NoCardsException;
+import Modelo.Exceptions.NoCardsException;
 
 import java.util.ArrayList;
 

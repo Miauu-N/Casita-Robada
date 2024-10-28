@@ -1,6 +1,6 @@
-package Main;
+package Modelo.Main;
 
-import Cartas.Carta;
+import Modelo.Cartas.Carta;
 
 import java.util.ArrayList;
 

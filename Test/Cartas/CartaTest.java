@@ -1,8 +1,8 @@
 package Cartas;
 
+import Modelo.Cartas.Carta;
+import Modelo.Cartas.Palo;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class CartaTest {
 

@@ -1,4 +1,4 @@
-package Cartas;
+package Modelo.Cartas;
 
 public enum Palo {
     pica,

@@ -1,11 +1,11 @@
-package Main;
+package Modelo.Main;
 
-import Cartas.*;
-import Exceptions.NoCardsException;
+import Modelo.Cartas.*;
+import Modelo.Cartas.Carta;
+import Modelo.Cartas.Mazo;
+import Modelo.Exceptions.NoCardsException;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Scanner;
 
 //TODO: testear robar pozo

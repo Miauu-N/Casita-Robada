@@ -1,10 +1,10 @@
 package Main;
 
+import Modelo.Main.Jugador;
+import Modelo.Main.Ronda;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class RondaTest {
 

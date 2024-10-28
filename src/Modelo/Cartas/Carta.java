@@ -1,4 +1,4 @@
-package Cartas;
+package Modelo.Cartas;
 
 public class Carta {
     private Palo palo;

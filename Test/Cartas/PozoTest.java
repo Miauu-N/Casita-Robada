@@ -1,8 +1,9 @@
 package Cartas;
 
+import Modelo.Cartas.Carta;
+import Modelo.Cartas.Palo;
+import Modelo.Cartas.Pozo;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class PozoTest {
 
@@ -16,6 +17,6 @@ class PozoTest {
         p2.agregarCarta(new Carta(Palo.diamante,2));
         p1.pasarCartas(p2);
         System.out.println(p1.getCantidad());
-        System.out.println(p2.getCantidad());
+            System.out.println(p2.getCantidad());
     }
 }

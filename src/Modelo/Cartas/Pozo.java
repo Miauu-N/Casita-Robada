@@ -1,6 +1,6 @@
-package Cartas;
+package Modelo.Cartas;
 
-import Exceptions.NoCardsException;
+import Modelo.Exceptions.NoCardsException;
 
 import java.util.Stack;
 
