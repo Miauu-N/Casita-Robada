@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 
 public class Consola {
     private ControladorConsola controlador;
+
     public void play() {
         controlador = new ControladorConsola(this);
         JFrame principal = new JFrame("Casita robada");

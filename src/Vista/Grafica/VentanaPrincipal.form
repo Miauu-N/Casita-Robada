@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Vista.Grafica.VentanaPrincipal">
+  <grid id="27dc6" binding="pantallaMenu" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="500" height="400"/>
+    </constraints>
+    <properties>
+      <background color="-16625143"/>
+      <enabled value="false"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <grid id="cdfa" binding="botones" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+        <constraints border-constraint="South"/>
+        <properties>
+          <background color="-16625143"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="f5fd4" class="javax.swing.JButton" binding="Jugar">
+            <constraints/>
+            <properties>
+              <background color="-16774552"/>
+              <foreground color="-986369"/>
+              <text value="Jugar"/>
+            </properties>
+          </component>
+          <component id="7e369" class="javax.swing.JButton" binding="botonReglas">
+            <constraints/>
+            <properties>
+              <background color="-4814536"/>
+              <foreground color="-986369"/>
+              <text value="Reglas"/>
+            </properties>
+          </component>
+          <component id="bf929" class="javax.swing.JButton" binding="salir">
+            <constraints/>
+            <properties>
+              <background color="-8253179"/>
+              <foreground color="-986369"/>
+              <hideActionText value="false"/>
+              <text value="Salir"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="7505a" binding="titulo" layout-manager="FlowLayout" hgap="5" vgap="140" flow-align="1">
+        <constraints border-constraint="Center"/>
+        <properties>
+          <background color="-16625143"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <grid id="19e5c" binding="CentrarCasita" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+            <constraints/>
+            <properties>
+              <background color="-16625143"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="37f25" class="javax.swing.JLabel" binding="casitaLabel">
+                <constraints/>
+                <properties>
+                  <enabled value="true"/>
+                  <font name="Impact" size="48" style="1"/>
+                  <text value="Casita Robada"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </grid>
+      <grid id="fb9e8" binding="north" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="North"/>
+        <properties>
+          <background color="-16625143"/>
+        </properties>
+        <border type="none"/>
+        <children/>
+      </grid>
+    </children>
+  </grid>
+</form>

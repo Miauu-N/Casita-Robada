@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Vista.Grafica.Reglas">
+  <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="500" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="b23eb" binding="Top" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+        <constraints border-constraint="North"/>
+        <properties>
+          <background color="-16625143"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="c63b" class="javax.swing.JLabel" binding="reglas">
+            <constraints/>
+            <properties>
+              <font size="22"/>
+              <text value="Reglas"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="eb93d" binding="Mid" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+        <constraints border-constraint="Center"/>
+        <properties>
+          <background color="-16625143"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="e2502" class="javax.swing.JLabel" binding="reglasEscritas">
+            <constraints/>
+            <properties>
+              <text value="Aca van las reglas"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="5c17d" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+        <constraints border-constraint="South"/>
+        <properties>
+          <background color="-16625143"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="c93e1" class="javax.swing.JButton" binding="botonVolver">
+            <constraints/>
+            <properties>
+              <text value="Volver"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>
