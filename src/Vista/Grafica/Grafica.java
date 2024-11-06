@@ -1,35 +1,45 @@
 package Vista.Grafica;
 
+import Controlador.ControladorGrafico;
+import Interfaces.IVentana;
+
 import javax.swing.*;
+import java.awt.*;
 
 public class Grafica {
     JFrame vent;
-    public Grafica(){
-        vent = new JFrame("Casita Robada");
-        vent.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        vent.setVisible(true);
-        VentanaPrincipal menu = new VentanaPrincipal(this);
-        vent.setContentPane(menu.getPanel());
-        vent.setSize(1280,720);
+    ControladorGrafico controlador;
+    boolean activo = true;
+
+    public Grafica(ControladorGrafico controladorGrafico){
+        this.controlador = controladorGrafico;
+        IVentana menu = new Nombre(controlador,this);
+        crearVentana(menu);
+    }
+
+    private void crearVentana(IVentana panel){
+        if (vent != null){
+            vent.setVisible(false);
+        }
+        this.vent = new JFrame("Casita Robada");
+        this.vent.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.vent.setContentPane(panel.getPanel());
+        this.vent.setExtendedState(Frame.MAXIMIZED_BOTH);
+        this.vent.setVisible(activo);
     }
 
     public void reglas(){
-        vent.setVisible(false);
-        vent = new JFrame("Casita Robada");
-        vent.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        vent.setVisible(true);
-        Reglas menu = new Reglas(this);
-        vent.setContentPane(menu.getPanel());
-        vent.setSize(1280,720);
+        IVentana menu = new Reglas(this);
+        crearVentana(menu);
     }
 
     public void mostrarMenuPrincipal() {
-        vent.setVisible(false);
-        vent = new JFrame("Casita Robada");
-        vent.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        vent.setVisible(true);
-        VentanaPrincipal menu = new VentanaPrincipal(this);
-        vent.setContentPane(menu.getPanel());
-        vent.setSize(1280,720);
+        IVentana menu = new VentanaPrincipal(controlador,this);
+        crearVentana(menu);
+    }
+
+    public void kill() {
+        System.out.println("Cliente cerrado");
+        activo = false; // TODO Preguntar si esta bien
     }
 }

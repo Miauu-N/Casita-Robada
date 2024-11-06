@@ -14,6 +14,7 @@
         <constraints border-constraint="South"/>
         <properties>
           <background color="-16625143"/>
+          <opaque value="false"/>
         </properties>
         <border type="none"/>
         <children>
@@ -22,6 +23,7 @@
             <properties>
               <background color="-16774552"/>
               <foreground color="-986369"/>
+              <opaque value="true"/>
               <text value="Jugar"/>
             </properties>
           </component>
@@ -47,7 +49,8 @@
       <grid id="7505a" binding="titulo" layout-manager="FlowLayout" hgap="5" vgap="140" flow-align="1">
         <constraints border-constraint="Center"/>
         <properties>
-          <background color="-16625143"/>
+          <background color="-16147705"/>
+          <opaque value="false"/>
         </properties>
         <border type="none"/>
         <children>
@@ -55,6 +58,7 @@
             <constraints/>
             <properties>
               <background color="-16625143"/>
+              <opaque value="false"/>
             </properties>
             <border type="none"/>
             <children>
@@ -63,6 +67,7 @@
                 <properties>
                   <enabled value="true"/>
                   <font name="Impact" size="48" style="1"/>
+                  <foreground color="-1"/>
                   <text value="Casita Robada"/>
                 </properties>
               </component>
@@ -74,6 +79,7 @@
         <constraints border-constraint="North"/>
         <properties>
           <background color="-16625143"/>
+          <opaque value="false"/>
         </properties>
         <border type="none"/>
         <children/>

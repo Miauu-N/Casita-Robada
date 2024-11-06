@@ -1,89 +1,192 @@
 package Modelo.Main;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Scanner;
+import Interfaces.IJugador;
+import Interfaces.Observable;
+import Interfaces.Observer;
+import Modelo.Cartas.Mazo;
+import Modelo.Events.EventType;
+import Modelo.Events.GameEvent;
+import Modelo.Exceptions.InvalidInputException;
+import Modelo.Exceptions.TipoInputInvalido;
 
-public class Partida {
+import java.util.*;
+
+public class Partida implements Observable {
+    private ArrayList<Observer> observers;
+
+    private ArrayList<Jugador> jugadores;
+
+    private boolean parejas = false;
+
+    private Jugador turno;
+
+    private boolean partidaEmpezada = false;
+
+    private Mesa mesa;
+
+    private Mazo mazo;
 
 
     public Partida(){
-        Scanner scanner = new Scanner(System.in);
-        boolean parejas;
-        System.out.println("Ingrese la cantidad de participantes: ");
-        int cantParticipantes = scanner.nextInt();
-        if (cantParticipantes != 4){
-            parejas = false;
-        }
-        else {
-            System.out.println("Desea jugar por parejas? (S/N): ");
-            String respuesta = scanner.next();
-            parejas = respuesta.toLowerCase().equals("s");
-        }
+        observers = new ArrayList<>();
+        this.jugadores = new ArrayList<>();
 
-        ArrayList<Jugador> jugadores = new ArrayList<>();
-        Equipo[] equipos = new Equipo[2];
-
-        if (parejas){
-            ArrayList<Jugador> T1 = new ArrayList<>();
-            ArrayList<Jugador> T2 = new ArrayList<>();
-
-            System.out.println("Introduzca el nombre del primer equipo: ");
-            String n1 = scanner.next();
-
-            System.out.println("Introduzca el nombre del jugador 1");
-            T1.add(new Jugador(scanner.next()));
-
-            System.out.println("Introduzca el nombre del jugador 2");
-            T1.add(new Jugador(scanner.next()));
-
-            System.out.println("Introduzca el nombre del segundo equipo: ");
-            String n2 = scanner.next();
-
-            System.out.println("Introduzca el nombre del jugador 3");
-            T2.add(new Jugador(scanner.next()));
-
-            System.out.println("Introduzca el nombre del jugador 4");
-            T2.add(new Jugador(scanner.next()));
-
-            equipos[0] = new Equipo(T1,n1);
-            equipos[1] = new Equipo(T2,n2);
-            jugadores.addAll(T1);
-            jugadores.addAll(T2);
-        }
-        else{
-            for (int i = 0; i < cantParticipantes; i++) {
-                System.out.println("Introduzca el nombre del jugador " + (i + 1) + ": ");
-                String nombre = scanner.next();
-                jugadores.add(new Jugador(nombre));
-            }
-        }
-        Collections.shuffle(jugadores);
-        Ronda ronda = new Ronda(jugadores);
-        ronda.jugar();
-
-        System.out.println("Desea jugar otra ronda? (S/N)");
-        String continuar = scanner.next();
-
-        while (continuar.equalsIgnoreCase("s")){
-            ronda = new Ronda(jugadores);
-            ronda.jugar();
-            System.out.println("Desea jugar otra ronda? (S/N)");
-            continuar = scanner.next();
-        }
-
-        System.out.println("Puntaje: ");
-
-        if (parejas){
-            System.out.println(equipos[0]);
-            System.out.println(equipos[1]);
-        }
-        else {
-            for (Jugador j : jugadores){
-                System.out.println(j + ": " + j.getPuntos());
-            }
-        }
+//        Collections.shuffle(jugadores);
+//        Ronda ronda = new Ronda(jugadores);
+//        ronda.jugar();
+//
+//        System.out.println("Desea jugar otra ronda? (S/N)");
+//        String continuar = scanner.next();
+//
+//        while (continuar.equalsIgnoreCase("s")){
+//            ronda = new Ronda(jugadores);
+//            ronda.jugar();
+//            System.out.println("Desea jugar otra ronda? (S/N)");
+//            continuar = scanner.next();
+//        }
+//
+//        System.out.println("Puntaje: ");
+//
+//        if (parejas){
+//            System.out.println(equipos[0]);
+//            System.out.println(equipos[1]);
+//        }
+//        else {
+//            for (Jugador j : jugadores){
+//                System.out.println(j + ": " + j.getPuntos());
+//            }
+//        }
 
 
     }
+
+    @Override
+    public void notificar(GameEvent e) {
+        for (Observer o : observers){
+            o.update(e);
+        }
+    }
+
+    @Override
+    public void addObserver(Observer o) {
+        observers.add(o);
+    }
+
+    @Override
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
+    }
+
+    public IJugador addJugador(String nombre) throws InvalidInputException {
+        if (jugadores.size() >= 4){
+            throw new InvalidInputException(TipoInputInvalido.salaLlena);
+        }
+        if (partidaEmpezada){
+            throw new InvalidInputException(TipoInputInvalido.partidaComenzada);
+        }
+        Jugador r = new Jugador(nombre);
+        jugadores.add(r);
+        return (IJugador) r;
+    }
+
+    public void empezarJuego() {
+        partidaEmpezada = true;
+        if (jugadores.size() == 4){
+            notificar(new GameEvent(EventType.preguntarModoParejas));
+        }
+        else{
+            parejas = false;
+            empezarPartida();
+        }
+    }
+
+    public void respuestaParejas(boolean equipos){
+        if (equipos){
+            // TODO: formar equipos
+        }
+        else{
+            parejas = false;
+            empezarPartida();
+        }
+    }
+
+    /**
+     * Asigna a la variable turno el siguiente jugador de la lista
+     */
+    private void pasarTurno() {
+        turno = jugadores.removeFirst();
+        jugadores.addLast(turno);
+    }
+
+    private void repartir() {
+        for (int i = 0; i < 3; i++) {
+            for (Jugador j : jugadores){
+                j.darCarta(mazo.agarrarCarta());
+            }
+        }
+    }
+
+
+
+    private void empezarPartida() {
+        Collections.shuffle(jugadores);
+        nuevaRonda();
+        pasarTurno();
+        repartir();
+//
+//        System.out.println("Desea jugar otra ronda? (S/N)");
+//        String continuar = scanner.next();
+//
+//        while (continuar.equalsIgnoreCase("s")){
+//            ronda = new Ronda(jugadores);
+//            ronda.jugar();
+//            System.out.println("Desea jugar otra ronda? (S/N)");
+//            continuar = scanner.next();
+//        }
+//
+//        System.out.println("Puntaje: ");
+//
+//        if (parejas){
+//            System.out.println(equipos[0]);
+//            System.out.println(equipos[1]);
+//        }
+//        else {
+//            for (Jugador j : jugadores){
+//                System.out.println(j + ": " + j.getPuntos());
+//            }
+//        }
+
+
+    }
+
+        /**
+         * Crea mesa, mazo y limpia las cartas de los jugadores
+         */
+    private void nuevaRonda() {
+        this.mesa = new Mesa();
+        this.mazo = new Mazo();
+        for (Jugador j : jugadores){
+            j.limpiarCartas();
+        }
+    }
+
+
+    public void ready(IJugador ijugador) {
+        Jugador jugador = (Jugador) ijugador;
+        jugador.setReady();
+        if (jugadores.size() > 2 && allReady() ){
+            empezarJuego();
+        }
+    }
+
+    private boolean allReady() {
+        for (Jugador jugador : jugadores){
+            if (!jugador.getReady()){
+                return false;
+            }
+        }
+        return true;
+    }
+
+
 }

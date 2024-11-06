@@ -1,11 +1,14 @@
 package Vista.Grafica;
 
+import Controlador.ControladorGrafico;
+import Interfaces.IVentana;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class VentanaPrincipal {
+public class VentanaPrincipal implements IVentana {
     private Grafica grafica;
     private JPanel pantallaMenu;
     private JPanel north;
@@ -18,12 +21,13 @@ public class VentanaPrincipal {
     private JButton salir;
 
 
-    public VentanaPrincipal(Grafica grafica) {
+    public VentanaPrincipal(ControladorGrafico controlador, Grafica grafica) {
         this.grafica = grafica;
         Jugar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Hola Mundo");
+                controlador.ready();
+                Jugar.setEnabled(false); // TODO Poner algun indicador sobre que ya estas listo
             }
         });
         salir.addActionListener(new ActionListener() {

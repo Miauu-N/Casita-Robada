@@ -1,0 +1,6 @@
+package Modelo.Events;
+
+public enum EventType {
+    preguntarModoParejas,
+
+}

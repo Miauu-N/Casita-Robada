@@ -1,18 +1,29 @@
 package Modelo.Main;
 
+import Interfaces.IJugador;
 import Modelo.Cartas.*;
 import Modelo.Cartas.Carta;
 import Modelo.Cartas.Mazo;
 import Modelo.Cartas.Pozo;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
-public class Jugador {
+public class Jugador implements IJugador {
     private String nombre;
     private Mazo mazo;
     private Pozo pozo;
     private int puntos;
     private ArrayList<Carta> mano;
+    private Boolean ready = false;
+
+    public Boolean getReady() {
+        return this.ready;
+    }
+
+    public void setReady() {
+        this.ready = true;
+    }
 
     public ArrayList<Carta> getMano() {
         return this.mano;
@@ -75,5 +86,15 @@ public class Jugador {
     @Override
     public String toString() {
         return nombre;
+    }
+
+    @Override
+    public boolean compararNombre(Jugador p2) {
+        return this.nombre.equals(p2.nombre);
+    }
+
+    public void limpiarCartas() {
+        mano.clear();
+        pozo.limpiarCartas();
     }
 }

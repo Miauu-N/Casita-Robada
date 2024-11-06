@@ -1,6 +1,9 @@
 package Modelo.Main;
 
 import java.util.ArrayList;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.concurrent.SynchronousQueue;
 
 public class Equipo {
     ArrayList<Jugador> jugadores;

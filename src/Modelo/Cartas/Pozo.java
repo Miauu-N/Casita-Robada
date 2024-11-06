@@ -35,4 +35,8 @@ public class Pozo {
             pozo.pozo.add(this.pozo.removeLast());
         }
     }
+
+    public void limpiarCartas() {
+        pozo.clear();
+    }
 }

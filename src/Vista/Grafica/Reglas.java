@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Reglas {
+public class Reglas implements Interfaces.IVentana {
     private Grafica grafica;
     private JPanel panel1;
     private JPanel Top;
@@ -23,6 +23,7 @@ public class Reglas {
         });
     }
 
+    @Override
     public Container getPanel() {
         return panel1;
     }
