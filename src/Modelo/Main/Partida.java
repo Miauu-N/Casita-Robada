@@ -7,6 +7,7 @@ import Modelo.Cartas.Mazo;
 import Modelo.Events.EventType;
 import Modelo.Events.GameEvent;
 import Modelo.Exceptions.InvalidInputException;
+import Modelo.Exceptions.NoCardsException;
 import Modelo.Exceptions.TipoInputInvalido;
 
 import java.util.*;
@@ -110,6 +111,44 @@ public class Partida implements Observable {
         }
     }
 
+    public void soplar(int indice1,int indice2){
+        if (indice1 != indice2 && mesa.verCarta(indice1).equals(mesa.verCarta(indice2))){
+            if (indice1 < indice2){
+                int aux = indice2;
+                indice2 = indice1;
+                indice1 = aux;
+            }
+            turno.getPozo().agregarCarta(mesa.tomarCarta(indice1));
+            turno.getPozo().agregarCarta(mesa.tomarCarta(indice2));
+            notificar(new GameEvent(EventType.updateCartas));
+        }
+        else {
+            System.out.println("Jugada incorrecta");
+            turno.quitarPuntos(1);
+        }
+    }
+
+    public void ligarPozo(int carta,Jugador target){
+        boolean jugadaCorrecta = false;
+
+        try {
+            if (turno.getCarta(carta).equals(target.getTope()) && !mesa.tiene(select)){
+                target.getPozo().agregarCarta(select);
+                if (target != jugador){
+                    target.getPozo().pasarCartas(jugador.getPozo());
+                }
+            }
+        } catch (NoCardsException ignored){  // entra aca en caso de que quiera robar un pozo sin cartas o un indice incorrecto
+        }
+
+        if (!jugadaCorrecta){
+            System.out.println("Jugada invalida");
+            dejarCarta(select);
+        }
+    }
+
+
+
     /**
      * Asigna a la variable turno el siguiente jugador de la lista
      */
@@ -133,30 +172,7 @@ public class Partida implements Observable {
         nuevaRonda();
         pasarTurno();
         repartir();
-//
-//        System.out.println("Desea jugar otra ronda? (S/N)");
-//        String continuar = scanner.next();
-//
-//        while (continuar.equalsIgnoreCase("s")){
-//            ronda = new Ronda(jugadores);
-//            ronda.jugar();
-//            System.out.println("Desea jugar otra ronda? (S/N)");
-//            continuar = scanner.next();
-//        }
-//
-//        System.out.println("Puntaje: ");
-//
-//        if (parejas){
-//            System.out.println(equipos[0]);
-//            System.out.println(equipos[1]);
-//        }
-//        else {
-//            for (Jugador j : jugadores){
-//                System.out.println(j + ": " + j.getPuntos());
-//            }
-//        }
-
-
+        notificar(new GameEvent(EventType.empezoElJuego,turno.toString()));
     }
 
         /**
@@ -165,6 +181,7 @@ public class Partida implements Observable {
     private void nuevaRonda() {
         this.mesa = new Mesa();
         this.mazo = new Mazo();
+        mazo.mezclar();
         for (Jugador j : jugadores){
             j.limpiarCartas();
         }

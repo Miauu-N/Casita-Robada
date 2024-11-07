@@ -33,9 +33,9 @@ public class Mesa {
         return cartas.size();
     }
 
-    public boolean tiene(int numero) {
+    public boolean tiene(Carta carta) {
         for (Carta c : cartas){
-            if (c.getNumero() == numero){
+            if (c.equals(carta)){
                 return  true;
             }
         }

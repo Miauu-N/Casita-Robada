@@ -89,19 +89,7 @@ public class Ronda {
         seleccionada1--;
         seleccionada2--;
 
-        if (seleccionada1 != seleccionada2 && mesa.verCarta(seleccionada1).getNumero() == mesa.verCarta(seleccionada2).getNumero()){
-            if (seleccionada1 < seleccionada2){
-                int aux = seleccionada2;
-                seleccionada2 = seleccionada1;
-                seleccionada1 = aux;
-            }
-            j.getPozo().agregarCarta(mesa.tomarCarta(seleccionada1));
-            j.getPozo().agregarCarta(mesa.tomarCarta(seleccionada2));
-        }
-        else {
-            System.out.println("Jugada incorrecta");
-            j.quitarPuntos(1);
-        }
+
 
     }
 
@@ -139,7 +127,7 @@ public class Ronda {
 
         try {
             Jugador robado = jugadores.get(seleccionado);
-            if (select.getNumero() == robado.getPozo().getTope().getNumero() && !mesa.tiene(select.getNumero())){
+            if (select.getNumero() == robado.getPozo().getTope().getNumero() && !mesa.tiene(select)){
                 robado.getPozo().agregarCarta(select);
                 if (robado != jugador){
                     robado.getPozo().pasarCartas(jugador.getPozo());

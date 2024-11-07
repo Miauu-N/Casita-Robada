@@ -5,6 +5,7 @@ import Modelo.Cartas.*;
 import Modelo.Cartas.Carta;
 import Modelo.Cartas.Mazo;
 import Modelo.Cartas.Pozo;
+import Modelo.Exceptions.NoCardsException;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -47,6 +48,20 @@ public class Jugador implements IJugador {
 
     public String getNombre() {
         return nombre;
+    }
+
+    @Override
+    public int getCantCartasEnMano() {
+        return mano.size();
+    }
+
+    @Override
+    public Carta getTope() {
+        try {
+            return pozo.getTope();
+        } catch (NoCardsException e) {
+            return null;
+        }
     }
 
     public Pozo getPozo() {
