@@ -42,4 +42,9 @@ public class Grafica {
         System.out.println("Cliente cerrado");
         activo = false; // TODO Preguntar si esta bien
     }
+
+    public void preguntarParejas(){
+        IVentana menu = new PreguntarParejas(controlador,this);
+        crearVentana(menu);
+    }
 }

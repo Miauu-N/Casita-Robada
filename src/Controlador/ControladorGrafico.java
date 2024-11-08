@@ -2,10 +2,12 @@ package Controlador;
 
 import Interfaces.IJugador;
 import Interfaces.Observer;
+import Modelo.Events.EventType;
 import Modelo.Exceptions.InvalidInputException;
 import Modelo.Events.GameEvent;
 import Modelo.Main.Partida;
 import Vista.Grafica.Grafica;
+import Modelo.Events.EventType;
 
 public class ControladorGrafico implements Observer {
 
@@ -32,10 +34,25 @@ public class ControladorGrafico implements Observer {
 
     @Override
     public void update(GameEvent e) {
-
+        switch (e.getTipo()){
+            case EventType.preguntarModoParejas -> {
+                grafica.preguntarParejas();
+            }
+            case updateCartas -> {}
+            case empezoElJuego -> {
+            }
+            case preguntarNuevaRonda -> {}
+            case null, default -> {
+                System.out.println("Evento invalido");
+            }
+        }
     }
 
     public void ready() {
         partida.ready(jugador);
+    }
+
+    public void responderParejas(boolean b) {
+        partida.respuestaParejas(b);
     }
 }

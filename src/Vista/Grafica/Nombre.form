@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Vista.Grafica.Nombre">
-  <grid id="27dc6" binding="panelPrincipal" layout-manager="BorderLayout" hgap="0" vgap="0">
+  <grid id="27dc6" binding="panelPrincipal" custom-create="true" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
       <xy x="20" y="20" width="500" height="400"/>
     </constraints>
@@ -24,7 +24,9 @@
               </grid>
               <gridbag weightx="0.0" weighty="0.0" ipadx="100"/>
             </constraints>
-            <properties/>
+            <properties>
+              <caretColor color="-1"/>
+            </properties>
           </component>
           <component id="43900" class="javax.swing.JLabel" binding="lIntroducir">
             <constraints>
@@ -32,6 +34,8 @@
               <gridbag weightx="0.0" weighty="0.0"/>
             </constraints>
             <properties>
+              <font name="Arial Black" size="18"/>
+              <opaque value="true"/>
               <text value="Introduzca su Nombre"/>
             </properties>
           </component>
@@ -59,14 +63,25 @@
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
               <gridbag weightx="0.0" weighty="0.0" ipady="15"/>
             </constraints>
-            <properties/>
+            <properties>
+              <background color="-3552297"/>
+              <font name="Arial" size="12"/>
+              <opaque value="true"/>
+              <visible value="true"/>
+            </properties>
           </component>
           <component id="26578" class="javax.swing.JSeparator">
             <constraints>
               <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
               <gridbag weightx="0.0" weighty="0.0" ipady="15"/>
             </constraints>
-            <properties/>
+            <properties>
+              <background color="-3552297"/>
+              <font name="Arial" size="12"/>
+              <foreground color="-16625143"/>
+              <opaque value="true"/>
+              <visible value="true"/>
+            </properties>
           </component>
         </children>
       </grid>

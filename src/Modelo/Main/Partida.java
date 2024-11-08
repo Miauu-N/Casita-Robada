@@ -3,6 +3,7 @@ package Modelo.Main;
 import Interfaces.IJugador;
 import Interfaces.Observable;
 import Interfaces.Observer;
+import Modelo.Cartas.Carta;
 import Modelo.Cartas.Mazo;
 import Modelo.Events.EventType;
 import Modelo.Events.GameEvent;
@@ -131,22 +132,70 @@ public class Partida implements Observable {
     public void ligarPozo(int carta,Jugador target){
         boolean jugadaCorrecta = false;
 
-        try {
-            if (turno.getCarta(carta).equals(target.getTope()) && !mesa.tiene(select)){
-                target.getPozo().agregarCarta(select);
-                if (target != jugador){
-                    target.getPozo().pasarCartas(jugador.getPozo());
-                }
+        Carta select = turno.getCarta(carta);
+        if (turno.getCarta(carta).equals(target.getTope()) && !mesa.tiene(select)){
+            target.getPozo().agregarCarta(select);
+            if (target != turno){
+                target.getPozo().pasarCartas(turno.getPozo());
             }
-        } catch (NoCardsException ignored){  // entra aca en caso de que quiera robar un pozo sin cartas o un indice incorrecto
+            terminarTurno();
         }
-
         if (!jugadaCorrecta){
             System.out.println("Jugada invalida");
-            dejarCarta(select);
+            dejarCarta(carta);
         }
     }
 
+    private void terminarTurno() {
+
+        mostrarSituacionPartida(turno);
+
+        if (mazo.cantCartas() > jugadores.size() * 3){
+            pasarTurno();
+            repartir();
+            notificar(new GameEvent(EventType.updateCartas));
+        }
+        else {
+            notificar(new GameEvent(EventType.preguntarNuevaRonda));
+        }
+    }
+
+    public void respuestaPreguntarNuevaRonda(boolean x){
+        if (x) {
+            nuevaRonda();
+            pasarTurno();
+            repartir();
+            notificar(new GameEvent(EventType.updateCartas));
+        }
+        else {
+            terminarPartida();
+        }
+    }
+
+    private void terminarPartida() {
+        //TODO
+    }
+
+    private void dejarCarta(int select) {
+        mesa.agregarCarta(turno.getCarta(select));
+        terminarTurno();
+    }
+
+    private void mostrarSituacionPartida(Jugador j) {
+        System.out.println("Turno de " + j.getNombre() + "!!");
+
+        System.out.println("Mano: ");
+        j.mostrarCartas();
+        System.out.println();
+
+        System.out.println("Mesa: ");
+        mesa.mostrarCartas();
+        System.out.println();
+
+        System.out.println("Pozos: ");
+        Utils.mostrarTopes(jugadores);
+        System.out.println();
+    }
 
 
     /**
@@ -175,9 +224,11 @@ public class Partida implements Observable {
         notificar(new GameEvent(EventType.empezoElJuego,turno.toString()));
     }
 
-        /**
-         * Crea mesa, mazo y limpia las cartas de los jugadores
-         */
+
+
+    /**
+     * Crea mesa, mazo y limpia las cartas de los jugadores
+     */
     private void nuevaRonda() {
         this.mesa = new Mesa();
         this.mazo = new Mazo();
@@ -191,7 +242,7 @@ public class Partida implements Observable {
     public void ready(IJugador ijugador) {
         Jugador jugador = (Jugador) ijugador;
         jugador.setReady();
-        if (jugadores.size() > 2 && allReady() ){
+        if (jugadores.size() >= 2 && allReady() ){
             empezarJuego();
         }
     }

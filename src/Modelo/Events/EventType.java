@@ -1,6 +1,6 @@
 package Modelo.Events;
 
 public enum EventType {
-    preguntarModoParejas, empezoElJuego, updateCartas,
+    preguntarModoParejas, empezoElJuego, updateCartas, preguntarNuevaRonda,
 
 }

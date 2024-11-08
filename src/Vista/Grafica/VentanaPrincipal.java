@@ -15,8 +15,6 @@ public class VentanaPrincipal implements IVentana {
     private JPanel titulo;
     private JPanel botones;
     private JButton Jugar;
-    private JPanel CentrarCasita;
-    private JLabel casitaLabel;
     private JButton botonReglas;
     private JButton salir;
 
@@ -46,5 +44,11 @@ public class VentanaPrincipal implements IVentana {
 
     public Container getPanel() {
         return pantallaMenu;
+    }
+
+    private void createUIComponents() {
+        PanelConFondo panel = new PanelConFondo();
+        panel.setImagen("/Designer.jpeg");
+        pantallaMenu = panel;
     }
 }

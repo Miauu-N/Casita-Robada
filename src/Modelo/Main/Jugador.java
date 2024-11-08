@@ -90,6 +90,9 @@ public class Jugador implements IJugador {
         }
     }
 
+    /**
+     * devuelve y elimina de la mano una carta
+     */
     public Carta getCarta(int indice) {
         return mano.remove(indice);
     }

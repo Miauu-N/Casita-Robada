@@ -27,4 +27,10 @@ public class Reglas implements Interfaces.IVentana {
     public Container getPanel() {
         return panel1;
     }
+
+    private void createUIComponents() {
+        PanelConFondo panel = new PanelConFondo();
+        panel.setImagen("/Pizarra.jpg");
+        panel1 = panel;
+    }
 }

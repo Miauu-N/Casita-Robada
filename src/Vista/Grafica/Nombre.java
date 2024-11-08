@@ -34,4 +34,10 @@ public class Nombre implements IVentana {
     public Container getPanel() {
         return panelPrincipal;
     }
+
+    private void createUIComponents() {
+        PanelConFondo panel = new PanelConFondo();
+        panel.setImagen("/Designer.jpeg");
+        panelPrincipal = panel;
+    }
 }
