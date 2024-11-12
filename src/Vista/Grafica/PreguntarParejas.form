@@ -51,7 +51,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="5d9c8" class="javax.swing.JLabel">
+          <component id="5d9c8" class="javax.swing.JLabel" binding="lPregunta">
             <constraints/>
             <properties>
               <font size="24"/>

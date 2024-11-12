@@ -20,12 +20,17 @@ public class Grafica {
     private void crearVentana(IVentana panel){
         if (vent != null){
             vent.setVisible(false);
+            vent.setContentPane(panel.getPanel());
+            vent.setVisible(true);
         }
-        this.vent = new JFrame("Casita Robada");
-        this.vent.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.vent.setContentPane(panel.getPanel());
-        this.vent.setExtendedState(Frame.MAXIMIZED_BOTH);
-        this.vent.setVisible(activo);
+        else {
+            this.vent = new JFrame("Casita Robada");
+            this.vent.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            this.vent.setContentPane(panel.getPanel());
+            this.vent.setExtendedState(Frame.MAXIMIZED_BOTH);
+            this.vent.setVisible(activo);
+        }
+
     }
 
     public void reglas(){
@@ -44,7 +49,7 @@ public class Grafica {
     }
 
     public void preguntarParejas(){
-        IVentana menu = new PreguntarParejas(controlador,this);
+        IVentana menu = new PreguntarParejas(controlador,this, SiONo.preguntarParejas);
         crearVentana(menu);
     }
 }

@@ -14,15 +14,21 @@ public class PreguntarParejas implements IVentana {
     private JPanel panelPrincipal;
     private JButton siButton;
     private JButton noButton;
+    private JLabel lPregunta;
 
-    public PreguntarParejas(ControladorGrafico controlador, Grafica grafica) {
+    public PreguntarParejas(ControladorGrafico controlador, Grafica grafica, SiONo tipo) {
+        if (tipo == SiONo.preguntarContinuar){
+            lPregunta.setText("Desea Continuar el juego?");
+        }
         this.controlador = controlador;
         this.grafica = grafica;
         siButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 desactivarBotones();
-                controlador.responderParejas(true);
+                if (tipo == SiONo.preguntarParejas) {
+                    controlador.responderParejas(true);
+                }
             }
         });
 
@@ -30,7 +36,9 @@ public class PreguntarParejas implements IVentana {
             @Override
             public void actionPerformed(ActionEvent e) {
                 desactivarBotones();
-                controlador.responderParejas(false);
+                if (tipo == SiONo.preguntarParejas) {
+                    controlador.responderParejas(false);
+                }
             }
         });
     }

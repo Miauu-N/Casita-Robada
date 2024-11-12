@@ -22,6 +22,7 @@
             <constraints/>
             <properties>
               <background color="-16774552"/>
+              <focusPainted value="false"/>
               <font name="Arial Black" size="24"/>
               <foreground color="-986369"/>
               <opaque value="true"/>
@@ -32,6 +33,7 @@
             <constraints/>
             <properties>
               <background color="-4814536"/>
+              <focusPainted value="false"/>
               <font name="Arial Black" size="24"/>
               <foreground color="-986369"/>
               <text value="Reglas"/>
@@ -42,6 +44,7 @@
             <constraints/>
             <properties>
               <background color="-8253179"/>
+              <focusPainted value="false"/>
               <font name="Arial Black" size="24"/>
               <foreground color="-986369"/>
               <hideActionText value="false"/>
