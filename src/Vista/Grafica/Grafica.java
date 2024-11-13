@@ -54,6 +54,11 @@ public class Grafica {
         crearVentana(contenido);
     }
 
+    public void mostrarPartida(){
+        IVentana partida = new Partida(this);
+        crearVentana(partida);
+    }
+
     public void kill() {
         System.out.println("Cliente cerrado");
         activo = false; // TODO Preguntar si esta bien
@@ -78,4 +83,5 @@ public class Grafica {
     public ArrayList<IJugador> pedirListos() {
         return controlador.pedirListos();
     }
+
 }

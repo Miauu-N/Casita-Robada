@@ -15,68 +15,57 @@
       </grid>
       <grid id="325a9" binding="pJugador" layout-manager="GridBagLayout">
         <constraints border-constraint="South"/>
-        <properties/>
+        <properties>
+          <background color="-12955563"/>
+        </properties>
         <border type="none"/>
         <children>
-          <component id="1c23d" class="javax.swing.JButton" binding="button1" default-binding="true">
+          <component id="1c23d" class="javax.swing.JButton" binding="lPozo">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-              <gridbag top="0" left="0" bottom="0" right="10" weightx="0.0" weighty="0.0"/>
+              <gridbag top="0" left="0" bottom="0" right="60" weightx="0.0" weighty="0.0"/>
             </constraints>
             <properties>
+              <borderPainted value="false"/>
+              <contentAreaFilled value="false"/>
+              <focusPainted value="false"/>
               <text value=""/>
             </properties>
           </component>
-          <component id="9b630" class="javax.swing.JButton" binding="button2" default-binding="true">
+          <grid id="52cc1" binding="pMano" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
             <constraints>
-              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-              <gridbag top="0" left="0" bottom="0" right="10" weightx="0.0" weighty="0.0"/>
-            </constraints>
-            <properties>
-              <text value="Button"/>
-            </properties>
-          </component>
-          <component id="b990a" class="javax.swing.JButton" binding="button3" default-binding="true">
-            <constraints>
-              <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-              <gridbag top="0" left="0" bottom="0" right="10" weightx="0.0" weighty="0.0"/>
-            </constraints>
-            <properties>
-              <text value="Button"/>
-            </properties>
-          </component>
-          <component id="25da2" class="javax.swing.JButton" binding="button4" default-binding="true">
-            <constraints>
-              <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-              <gridbag top="0" left="0" bottom="0" right="10" weightx="0.0" weighty="0.0"/>
-            </constraints>
-            <properties>
-              <text value="Button"/>
-            </properties>
-          </component>
-          <hspacer id="5221">
-            <constraints>
-              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
               <gridbag weightx="0.0" weighty="0.0"/>
             </constraints>
-          </hspacer>
+            <properties>
+              <background color="-12955563"/>
+            </properties>
+            <border type="none"/>
+            <children/>
+          </grid>
         </children>
       </grid>
       <grid id="1468b" binding="pRival1" layout-manager="BorderLayout" hgap="0" vgap="0">
         <constraints border-constraint="North"/>
-        <properties/>
+        <properties>
+          <background color="-12955563"/>
+        </properties>
         <border type="none"/>
         <children/>
       </grid>
       <grid id="ec55f" binding="pRival2" layout-manager="BorderLayout" hgap="0" vgap="0">
         <constraints border-constraint="East"/>
-        <properties/>
+        <properties>
+          <background color="-12955563"/>
+        </properties>
         <border type="none"/>
         <children/>
       </grid>
       <grid id="a2703" binding="pRival3" layout-manager="BorderLayout" hgap="0" vgap="0">
         <constraints border-constraint="West"/>
-        <properties/>
+        <properties>
+          <background color="-12955563"/>
+        </properties>
         <border type="none"/>
         <children/>
       </grid>
