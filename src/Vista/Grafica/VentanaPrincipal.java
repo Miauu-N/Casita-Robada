@@ -2,6 +2,7 @@ package Vista.Grafica;
 
 import Controlador.ControladorGrafico;
 import Interfaces.IVentana;
+import Modelo.Main.Jugador;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,6 +18,7 @@ public class VentanaPrincipal implements IVentana {
     private JButton Jugar;
     private JButton botonReglas;
     private JButton salir;
+    private boolean listo = false;
 
 
     public VentanaPrincipal(ControladorGrafico controlador, Grafica grafica) {
@@ -25,7 +27,16 @@ public class VentanaPrincipal implements IVentana {
             @Override
             public void actionPerformed(ActionEvent e) {
                 controlador.ready();
-                Jugar.setEnabled(false); // TODO Poner algun indicador sobre que ya estas listo
+                if (!listo){
+                    listo = true;
+                    Jugar.setBackground(Color.RED);
+                    Jugar.setText("Cancelar");
+                }
+                else {
+                    listo = false;
+                    Jugar.setBackground(Color.BLUE);
+                    Jugar.setText("Jugar");
+                }
             }
         });
         salir.addActionListener(new ActionListener() {

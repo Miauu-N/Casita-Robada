@@ -88,6 +88,7 @@ public class Partida implements Observable {
         }
         Jugador r = new Jugador(nombre);
         jugadores.add(r);
+        notificar(new GameEvent(EventType.jugadorAgregado));
         return (IJugador) r;
     }
 

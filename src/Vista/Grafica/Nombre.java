@@ -22,10 +22,13 @@ public class Nombre implements IVentana {
         bAceptar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String name = textField1.getText();
 
-                controladorGrafico.addJugador(textField1.getText());
+                if (!name.isEmpty()) {
+                    controladorGrafico.addJugador(name);
 
-                grafica.mostrarMenuPrincipal();
+                    grafica.mostrarMenuPrincipal();
+                }
 
             }
         });

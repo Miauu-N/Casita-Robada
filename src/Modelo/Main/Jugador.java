@@ -23,7 +23,12 @@ public class Jugador implements IJugador {
     }
 
     public void setReady() {
-        this.ready = true;
+        if (!ready) {
+            this.ready = true;
+        }
+        else {
+            this.ready = false;
+        }
     }
 
     public ArrayList<Carta> getMano() {
