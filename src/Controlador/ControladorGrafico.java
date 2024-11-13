@@ -28,6 +28,7 @@ public class ControladorGrafico implements Observer {
     public void addJugador(String nombre) {
         try {
             this.jugador = partida.addJugador(nombre);
+            this.grafica.addtoTitle(jugador.getNombre());
         } catch (InvalidInputException e) {
             partida.removeObserver(this);
             grafica.kill();

@@ -30,6 +30,7 @@ public class Grafica {
             this.vent = new JFrame("Casita Robada");
             this.vent.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             this.vent.setContentPane(panel.getPanel());
+            this.vent.pack();
             this.vent.setExtendedState(Frame.MAXIMIZED_BOTH);
             this.vent.setVisible(activo);
         }
@@ -67,5 +68,10 @@ public class Grafica {
         if (menu != null){
             menu.actializarListos(jugadores);
         }
+    }
+
+    public void addtoTitle(String nombre) {
+        String titulo = vent.getTitle() + " ( " + nombre + " )";
+        vent.setTitle(titulo);
     }
 }
