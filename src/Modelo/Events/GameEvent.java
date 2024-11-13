@@ -2,9 +2,9 @@ package Modelo.Events;
 
 public class GameEvent {
     private EventType tipo;
-    private String contenido;
+    private Object contenido;
 
-    public GameEvent(EventType tipo, String contenido) {
+    public GameEvent(EventType tipo, Object contenido) {
         this.tipo = tipo;
         this.contenido = contenido;
     }
@@ -17,7 +17,7 @@ public class GameEvent {
         return this.tipo;
     }
 
-    public String getContenido() {
+    public Object getContenido() {
         return this.contenido;
     }
 }

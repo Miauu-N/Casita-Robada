@@ -1,15 +1,18 @@
 package Vista.Grafica;
 
 import Controlador.ControladorGrafico;
+import Interfaces.IJugador;
 import Interfaces.IVentana;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Grafica {
-    JFrame vent;
-    ControladorGrafico controlador;
-    boolean activo = true;
+    private JFrame vent;
+    private ControladorGrafico controlador;
+    private boolean activo = true;
+    private VentanaPrincipal menu = null;
 
     public Grafica(ControladorGrafico controladorGrafico){
         this.controlador = controladorGrafico;
@@ -39,8 +42,15 @@ public class Grafica {
     }
 
     public void mostrarMenuPrincipal() {
-        IVentana menu = new VentanaPrincipal(controlador,this);
-        crearVentana(menu);
+        VentanaPrincipal contenido;
+        if (this.menu == null) {
+            contenido = new VentanaPrincipal(controlador,this);
+            this.menu = contenido;
+        }
+        else {
+            contenido = this.menu;
+        }
+        crearVentana(contenido);
     }
 
     public void kill() {
@@ -51,5 +61,11 @@ public class Grafica {
     public void preguntarParejas(){
         IVentana menu = new PreguntarParejas(controlador,this, SiONo.preguntarParejas);
         crearVentana(menu);
+    }
+
+    public void actualizarListos(ArrayList<IJugador> jugadores) {
+        if (menu != null){
+            menu.actializarListos(jugadores);
+        }
     }
 }

@@ -9,6 +9,8 @@ import Modelo.Main.Partida;
 import Vista.Grafica.Grafica;
 import Modelo.Events.EventType;
 
+import java.util.ArrayList;
+
 public class ControladorGrafico implements Observer {
 
     private Grafica grafica;
@@ -35,13 +37,21 @@ public class ControladorGrafico implements Observer {
     @Override
     public void update(GameEvent e) {
         switch (e.getTipo()){
+
             case EventType.preguntarModoParejas -> {
                 grafica.preguntarParejas();
             }
             case updateCartas -> {}
+
             case empezoElJuego -> {
             }
+
             case preguntarNuevaRonda -> {}
+
+            case jugadorListo -> {
+                ArrayList<IJugador> jugadores = (ArrayList<IJugador>) e.getContenido();
+                grafica.actualizarListos(jugadores);
+            }
             case null, default -> {
                 System.out.println("Evento invalido");
             }

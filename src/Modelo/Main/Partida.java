@@ -243,8 +243,12 @@ public class Partida implements Observable {
     public void ready(IJugador ijugador) {
         Jugador jugador = (Jugador) ijugador;
         jugador.setReady();
+
         if (jugadores.size() >= 2 && allReady() ){
             empezarJuego();
+        }
+        else {
+            notificar(new GameEvent(EventType.jugadorListo,jugadoresEncapsulados()));
         }
     }
 
@@ -255,6 +259,14 @@ public class Partida implements Observable {
             }
         }
         return true;
+    }
+
+    private ArrayList<IJugador> jugadoresEncapsulados(){
+        ArrayList<IJugador> resultado = new ArrayList<>();
+        for (Jugador j : jugadores){
+            resultado.add((IJugador) j);
+        }
+        return resultado;
     }
 
 

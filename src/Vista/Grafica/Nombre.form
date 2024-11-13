@@ -31,7 +31,7 @@
           <component id="43900" class="javax.swing.JLabel" binding="lIntroducir">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-              <gridbag weightx="0.0" weighty="0.0"/>
+              <gridbag top="10" left="10" bottom="0" right="10" weightx="0.0" weighty="0.0"/>
             </constraints>
             <properties>
               <font name="Arial Black" size="18"/>
@@ -65,7 +65,6 @@
             </constraints>
             <properties>
               <background color="-3552297"/>
-              <font name="Arial" size="12"/>
               <opaque value="true"/>
               <visible value="true"/>
             </properties>
@@ -77,7 +76,6 @@
             </constraints>
             <properties>
               <background color="-3552297"/>
-              <font name="Arial" size="12"/>
               <foreground color="-16625143"/>
               <opaque value="true"/>
               <visible value="true"/>

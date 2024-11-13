@@ -1,6 +1,7 @@
 package Vista.Grafica;
 
 import Controlador.ControladorGrafico;
+import Interfaces.IJugador;
 import Interfaces.IVentana;
 import Modelo.Main.Jugador;
 
@@ -8,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class VentanaPrincipal implements IVentana {
     private Grafica grafica;
@@ -61,5 +63,9 @@ public class VentanaPrincipal implements IVentana {
         PanelConFondo panel = new PanelConFondo();
         panel.setImagen("/Designer.jpeg");
         pantallaMenu = panel;
+    }
+
+    public void actializarListos(ArrayList<IJugador> jugadores) {
+
     }
 }
