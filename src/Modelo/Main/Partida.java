@@ -94,6 +94,7 @@ public class Partida implements Observable {
 
     public void empezarJuego() {
         partidaEmpezada = true;
+        System.exit(22);
         if (jugadores.size() == 4){
             notificar(new GameEvent(EventType.preguntarModoParejas));
         }

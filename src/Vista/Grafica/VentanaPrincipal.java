@@ -82,6 +82,6 @@ public class VentanaPrincipal implements IVentana {
             label.setForeground(listo ? Color.green : Color.white);
             pJugadoresListos.add(label);
         }
-
+        pJugadoresListos.updateUI();
     }
 }
