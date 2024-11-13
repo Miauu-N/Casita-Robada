@@ -5,7 +5,7 @@ import Modelo.Main.Jugador;
 
 public interface IJugador {
 
-    public boolean compararNombre(Jugador p2);
+    public boolean compararNombre(IJugador p2);
 
     public String getNombre();
 

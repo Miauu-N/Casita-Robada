@@ -17,8 +17,12 @@ public class ControladorGrafico implements Observer {
 
     private Partida partida;
 
+
     private IJugador jugador;
 
+    public IJugador getJugador() {
+        return this.jugador;
+    }
     public ControladorGrafico(Partida partida) {
         grafica = new Grafica(this);
         this.partida = partida;
@@ -45,6 +49,7 @@ public class ControladorGrafico implements Observer {
             case updateCartas -> {}
 
             case empezoElJuego -> {
+                grafica.mostrarPartida();
             }
 
             case preguntarNuevaRonda -> {}

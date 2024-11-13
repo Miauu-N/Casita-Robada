@@ -107,8 +107,8 @@ public class Jugador implements IJugador {
     }
 
     @Override
-    public boolean compararNombre(Jugador p2) {
-        return this.nombre.equals(p2.nombre);
+    public boolean compararNombre(IJugador p2) {
+        return this.nombre.equals(p2.getNombre());
     }
 
     public void limpiarCartas() {

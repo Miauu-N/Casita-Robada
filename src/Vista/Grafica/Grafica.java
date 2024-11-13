@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class Grafica {
     private JFrame vent;
-    private ControladorGrafico controlador;
+    private final ControladorGrafico controlador;
     private boolean activo = true;
     private VentanaPrincipal menu = null;
 
@@ -84,4 +84,7 @@ public class Grafica {
         return controlador.pedirListos();
     }
 
+    public IJugador pedirJugador() {
+        return controlador.getJugador();
+    }
 }
