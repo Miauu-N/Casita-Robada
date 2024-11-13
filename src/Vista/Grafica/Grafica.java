@@ -66,12 +66,16 @@ public class Grafica {
 
     public void actualizarListos(ArrayList<IJugador> jugadores) {
         if (menu != null){
-            menu.actializarListos(jugadores);
+            menu.actualizarListos(jugadores);
         }
     }
 
     public void addtoTitle(String nombre) {
         String titulo = vent.getTitle() + " ( " + nombre + " )";
         vent.setTitle(titulo);
+    }
+
+    public ArrayList<IJugador> pedirListos() {
+        return controlador.pedirListos();
     }
 }

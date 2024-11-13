@@ -8,7 +8,6 @@ import Modelo.Cartas.Mazo;
 import Modelo.Events.EventType;
 import Modelo.Events.GameEvent;
 import Modelo.Exceptions.InvalidInputException;
-import Modelo.Exceptions.NoCardsException;
 import Modelo.Exceptions.TipoInputInvalido;
 
 import java.util.*;
@@ -88,7 +87,7 @@ public class Partida implements Observable {
         }
         Jugador r = new Jugador(nombre);
         jugadores.add(r);
-        notificar(new GameEvent(EventType.jugadorAgregado));
+        notificar(new GameEvent(EventType.jugadorListo,getIJugadores()));
         return (IJugador) r;
     }
 
@@ -249,7 +248,7 @@ public class Partida implements Observable {
             empezarJuego();
         }
         else {
-            notificar(new GameEvent(EventType.jugadorListo,jugadoresEncapsulados()));
+            notificar(new GameEvent(EventType.jugadorListo, getIJugadores()));
         }
     }
 
@@ -262,7 +261,7 @@ public class Partida implements Observable {
         return true;
     }
 
-    private ArrayList<IJugador> jugadoresEncapsulados(){
+    public ArrayList<IJugador> getIJugadores(){
         ArrayList<IJugador> resultado = new ArrayList<>();
         for (Jugador j : jugadores){
             resultado.add((IJugador) j);

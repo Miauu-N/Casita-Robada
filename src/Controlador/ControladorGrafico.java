@@ -66,4 +66,8 @@ public class ControladorGrafico implements Observer {
     public void responderParejas(boolean b) {
         partida.respuestaParejas(b);
     }
+
+    public ArrayList<IJugador> pedirListos() {
+        return partida.getIJugadores();
+    }
 }

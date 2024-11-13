@@ -3,7 +3,6 @@ package Vista.Grafica;
 import Controlador.ControladorGrafico;
 import Interfaces.IJugador;
 import Interfaces.IVentana;
-import Modelo.Main.Jugador;
 
 import javax.swing.*;
 import java.awt.*;
@@ -57,6 +56,7 @@ public class VentanaPrincipal implements IVentana {
                 grafica.reglas();
             }
         });
+        actualizarListos(grafica.pedirListos());
     }
 
     public Container getPanel() {
@@ -70,7 +70,7 @@ public class VentanaPrincipal implements IVentana {
 
     }
 
-    public void actializarListos(ArrayList<IJugador> jugadores) {
+    public void actualizarListos(ArrayList<IJugador> jugadores) {
         Component lJugadores = pJugadoresListos.getComponent(0);
         pJugadoresListos.removeAll();
         pJugadoresListos.setLayout(new BoxLayout(pJugadoresListos, BoxLayout.Y_AXIS));
