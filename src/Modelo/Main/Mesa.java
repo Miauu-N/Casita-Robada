@@ -15,10 +15,8 @@ public class Mesa {
         cartas.add(carta);
     }
 
-    public void mostrarCartas() {
-        for (Carta c : cartas){
-            System.out.println(c);
-        }
+    public ArrayList<Carta> getCartas() {
+        return (ArrayList<Carta>) cartas.clone();
     }
 
     public Carta verCarta(int seleccionada) {

@@ -20,4 +20,11 @@ public class GameEvent {
     public Object getContenido() {
         return this.contenido;
     }
+
+    @Override
+    public String toString() {
+        return "GameEvent{" +
+                "tipo=" + tipo +
+                '}';
+    }
 }

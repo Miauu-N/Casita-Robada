@@ -28,6 +28,11 @@ public class Reglas implements Interfaces.IVentana {
         return panel1;
     }
 
+    @Override
+    public void updateUI() {
+        panel1.updateUI();
+    }
+
     private void createUIComponents() {
         PanelConFondo panel = new PanelConFondo();
         panel.setImagen("/Pizarra.jpg");

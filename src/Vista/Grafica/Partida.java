@@ -2,17 +2,20 @@ package Vista.Grafica;
 
 import Interfaces.IJugador;
 import Interfaces.IVentana;
+import Modelo.Cartas.Carta;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Objects;
+
+import static Modelo.Main.Utils.botonCarta;
+import static Modelo.Main.Utils.cartaToPath;
 
 public class Partida implements IVentana {
     private final Grafica grafica;
+    private ArrayList<JButton> botonesMano;
     private JPanel panel1;
     private JPanel pMesa;
     private JPanel pJugador;
@@ -22,44 +25,113 @@ public class Partida implements IVentana {
     private JPanel pRival3;
     private JButton lPozo;
     private JPanel pMano;
-    private Image dorso;
-    private IJugador jugador;
+    private IJugador nombreJugador;
+    private ArrayList<JButton> botonesJugadas;
+    private int selected;
 
-    public Partida(Grafica grafica) {
-
-        //TODO: guardar el dorso
-
-
+    public Partida(Grafica grafica, ArrayList<IJugador> jugadors) {
+        this.botonesJugadas = new ArrayList<>();
+        this.botonesMano = new ArrayList<>();
         this.grafica = grafica;
 
-        ArrayList<IJugador> jugadors = grafica.pedirListos();
+        IJugador jugador = grafica.pedirJugador();
+        this.nombreJugador = jugador;
 
-        jugador = grafica.pedirJugador();
         int i = 0;
         for (IJugador j : jugadors){
             if (!j.compararNombre(jugador)){
                 pRival panel = pRivales.get(i++);
-                panel.setJugador(j);
-                panel.add(new JLabel(j.getNombre()));
+                JButton e = panel.setJugador(j);
+                e.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        System.out.println("Robar pozo de: " + jugador.getNombre() ); // todo ...
+
+                    }
+                });
+                botonesJugadas.add(e);
             }
         }
 
-        botonCarta(lPozo, "/grande.png");
+        i = 0;
+        for (Carta c : grafica.pedirCartasMesa()){
+            JButton cartaMesa = botonCarta(new JButton(), cartaToPath(c));
+            int finalI = i;
+            cartaMesa.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    activarJugadas(false);
+                    System.out.println("Robar de la mesa: " + finalI + " con la carta: " + selected); //todo ...
+                }
+            });
+            pMesa.add(cartaMesa);
+            botonesJugadas.add(cartaMesa);
+            i++;
+        }
+
+        botonCarta(lPozo, cartaToPath(jugador.getTope())).addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                robarPozo(nombreJugador.getNombre());
+            }
+        });
+
+        ArrayList<Carta> mano = grafica.pedirCartasJugador(jugador.getNombre());
+        i = 0;
+        for (Carta c : mano){
+            JButton boton = botonCarta(new JButton(), cartaToPath(c));
+            pMano.add(boton);
+            int finalI1 = i;
+            boton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    selected = finalI1;
+                    activarMano(false,true);
+                    System.out.println("Carta seleccionada: " + finalI1);
+                }
+            });
+            i++;
+            this.botonesMano.add(boton);
+        }
+        activarJugadas(false);
+        activarMano(false);
     }
 
-    private void botonCarta(JButton boton, String string) {
-        ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource(string)));
-        Image image = icon.getImage().getScaledInstance(91,127,Image.SCALE_SMOOTH);
-        boton.setIcon(new ImageIcon(image));
-        boton.setBorderPainted(false);
-        boton.setContentAreaFilled(false);
-        boton.setFocusPainted(false);
-        boton.updateUI();
+    private void robarPozo(String jugador) {
+        activarJugadas(false);
+        System.out.println("Robar mazo a : " + nombreJugador.getNombre());
+        grafica.robarPozo(jugador,selected);
     }
+
+    private void activarMano(Boolean mano,boolean activarJugadas) {
+        for (JButton b : botonesMano){
+            b.setEnabled(mano);
+        }
+        if (activarJugadas) {
+            activarJugadas(true);
+        }
+    }
+    private void activarMano(Boolean mano) {
+        for (JButton b : botonesMano){
+            b.setEnabled(mano);
+        }
+    }
+
+    private void activarJugadas(boolean x) {
+        for (JButton b : botonesJugadas){
+            b.setEnabled(x);
+        }
+    }
+
 
     @Override
     public Container getPanel() {
         return panel1;
+    }
+
+    @Override
+    public void updateUI() {
+        panel1.updateUI();
     }
 
     private void createUIComponents() {
@@ -78,26 +150,7 @@ public class Partida implements IVentana {
         this.pRival3 = pRival3;
     }
 
-    private Image rotarImagen(ImageIcon icono, int angulo) { // by ChatGPT :(
-        BufferedImage bufferedImage = new BufferedImage(
-                icono.getIconWidth(),
-                icono.getIconHeight(),
-                BufferedImage.TYPE_INT_ARGB
-        );
-
-        // Dibujar la imagen original en un BufferedImage
-        Graphics2D g2d = bufferedImage.createGraphics();
-        g2d.drawImage(icono.getImage(), 0, 0, null);
-        g2d.dispose();
-
-        // Crear la transformación de rotación
-        AffineTransform transform = new AffineTransform();
-        transform.rotate(Math.toRadians(angulo), (double) bufferedImage.getWidth() / 2, (double) bufferedImage.getHeight() / 2);
-
-        // Aplicar la rotación
-        AffineTransformOp op = new AffineTransformOp(transform, AffineTransformOp.TYPE_BILINEAR);
-        bufferedImage = op.filter(bufferedImage, null);
-
-        return bufferedImage;
+    public void asignarTurno() {
+        activarMano(true);
     }
 }

@@ -63,6 +63,11 @@ public class VentanaPrincipal implements IVentana {
         return pantallaMenu;
     }
 
+    @Override
+    public void updateUI() {
+        pantallaMenu.updateUI();
+    }
+
     private void createUIComponents() {
         PanelConFondo panel = new PanelConFondo();
         panel.setImagen("/Designer.jpeg");

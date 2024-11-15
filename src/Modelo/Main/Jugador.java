@@ -110,6 +110,9 @@ public class Jugador implements IJugador {
     public boolean compararNombre(IJugador p2) {
         return this.nombre.equals(p2.getNombre());
     }
+    public boolean compararNombre(String p2) {
+        return this.nombre.equals(p2);
+    }
 
     public void limpiarCartas() {
         mano.clear();

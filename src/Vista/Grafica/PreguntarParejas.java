@@ -58,4 +58,9 @@ public class PreguntarParejas implements IVentana {
     public Container getPanel() {
         return panelPrincipal;
     }
+
+    @Override
+    public void updateUI() {
+        panelPrincipal.updateUI();
+    }
 }

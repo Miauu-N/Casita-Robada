@@ -3,6 +3,7 @@ package Vista.Grafica;
 import Controlador.ControladorGrafico;
 import Interfaces.IJugador;
 import Interfaces.IVentana;
+import Modelo.Cartas.Carta;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +14,7 @@ public class Grafica {
     private final ControladorGrafico controlador;
     private boolean activo = true;
     private VentanaPrincipal menu = null;
+    private Vista.Grafica.Partida partida = null;
 
     public Grafica(ControladorGrafico controladorGrafico){
         this.controlador = controladorGrafico;
@@ -22,9 +24,8 @@ public class Grafica {
 
     private void crearVentana(IVentana panel){
         if (vent != null){
-            vent.setVisible(false);
             vent.setContentPane(panel.getPanel());
-            vent.setVisible(true);
+            panel.updateUI();
         }
         else {
             this.vent = new JFrame("Casita Robada");
@@ -55,7 +56,8 @@ public class Grafica {
     }
 
     public void mostrarPartida(){
-        IVentana partida = new Partida(this);
+        Vista.Grafica.Partida partida = new Partida(this, pedirListos());
+        this.partida = partida;
         crearVentana(partida);
     }
 
@@ -86,5 +88,21 @@ public class Grafica {
 
     public IJugador pedirJugador() {
         return controlador.getJugador();
+    }
+
+    public ArrayList<Carta> pedirCartasMesa() {
+        return controlador.pedirCartasMesa();
+    }
+
+    public ArrayList<Carta> pedirCartasJugador(String nombre) {
+        return controlador.pedirCartasJugador(nombre);
+    }
+
+    public void asignarTurno() {
+        partida.asignarTurno();
+    }
+
+    public void robarPozo(String jugador, int selected) {
+        controlador.robarPozo(jugador,selected);
     }
 }

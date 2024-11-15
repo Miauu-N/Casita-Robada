@@ -2,12 +2,12 @@ package Controlador;
 
 import Interfaces.IJugador;
 import Interfaces.Observer;
+import Modelo.Cartas.Carta;
 import Modelo.Events.EventType;
 import Modelo.Exceptions.InvalidInputException;
 import Modelo.Events.GameEvent;
 import Modelo.Main.Partida;
 import Vista.Grafica.Grafica;
-import Modelo.Events.EventType;
 
 import java.util.ArrayList;
 
@@ -49,7 +49,11 @@ public class ControladorGrafico implements Observer {
             case updateCartas -> {}
 
             case empezoElJuego -> {
+                IJugador turno = (IJugador) e.getContenido();
                 grafica.mostrarPartida();
+                if (turno.compararNombre(jugador)) {
+                    grafica.asignarTurno();
+                }
             }
 
             case preguntarNuevaRonda -> {}
@@ -58,9 +62,9 @@ public class ControladorGrafico implements Observer {
                 ArrayList<IJugador> jugadores = (ArrayList<IJugador>) e.getContenido();
                 grafica.actualizarListos(jugadores);
             }
-            case null, default -> {
-                System.out.println("Evento invalido");
-            }
+//            case null, default -> {
+//                System.out.println("Evento invalido");
+//            }
         }
     }
 
@@ -74,5 +78,17 @@ public class ControladorGrafico implements Observer {
 
     public ArrayList<IJugador> pedirListos() {
         return partida.getIJugadores();
+    }
+
+    public ArrayList<Carta> pedirCartasMesa() {
+        return  partida.getCartasMesa();
+    }
+
+    public ArrayList<Carta> pedirCartasJugador(String nombre) {
+        return partida.getCartasJugador(nombre);
+    }
+
+    public void robarPozo(String jugador, int selected) {
+        partida.ligarPozo(selected, jugador);
     }
 }

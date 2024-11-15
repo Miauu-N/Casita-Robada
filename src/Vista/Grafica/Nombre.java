@@ -38,6 +38,11 @@ public class Nombre implements IVentana {
         return panelPrincipal;
     }
 
+    @Override
+    public void updateUI() {
+        panelPrincipal.updateUI();
+    }
+
     private void createUIComponents() {
         PanelConFondo panel = new PanelConFondo();
         panel.setImagen("/Designer.jpeg");

@@ -1,6 +1,5 @@
 package Modelo.Main;
 
-import Modelo.Cartas.*;
 import Modelo.Cartas.Carta;
 import Modelo.Cartas.Mazo;
 import Modelo.Exceptions.NoCardsException;
@@ -78,7 +77,7 @@ public class Ronda {
 
     private void soplar(Jugador j) {
         System.out.println("Las cartas de la mesa son: ");
-        mesa.mostrarCartas();
+        mesa.getCartas();
 
         Scanner scanner = new Scanner(System.in);
 
@@ -101,7 +100,7 @@ public class Ronda {
         System.out.println();
 
         System.out.println("Mesa: ");
-        mesa.mostrarCartas();
+        mesa.getCartas();
         System.out.println();
 
         System.out.println("Pozos: ");
@@ -159,7 +158,7 @@ public class Ronda {
         System.out.println(select);
 
         System.out.println("Las cartas de la mesa son: ");
-        mesa.mostrarCartas();
+        mesa.getCartas();
 
         Scanner scanner = new Scanner(System.in);
 

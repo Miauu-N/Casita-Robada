@@ -93,7 +93,7 @@ public class Partida implements Observable {
 
     public void empezarJuego() {
         partidaEmpezada = true;
-        if (jugadores.size() == 4){
+        if (jugadores.size() == 5 ){ // todo
             notificar(new GameEvent(EventType.preguntarModoParejas));
         }
         else{
@@ -146,6 +146,20 @@ public class Partida implements Observable {
         }
     }
 
+    public void ligarPozo(int carta,String jugador){
+        Jugador j = buscarJugador(carta, jugador);
+        ligarPozo(carta,j);
+    }
+
+    private Jugador buscarJugador(int carta, String jugador) {
+        for (Jugador j : jugadores){
+            if (j.compararNombre(jugador)){
+                return j;
+            }
+        }
+        throw new RuntimeException("Jugador no encontrado");
+    }
+
     private void terminarTurno() {
 
         mostrarSituacionPartida(turno);
@@ -189,7 +203,7 @@ public class Partida implements Observable {
         System.out.println();
 
         System.out.println("Mesa: ");
-        mesa.mostrarCartas();
+        mesa.getCartas();
         System.out.println();
 
         System.out.println("Pozos: ");
@@ -236,6 +250,9 @@ public class Partida implements Observable {
         for (Jugador j : jugadores){
             j.limpiarCartas();
         }
+        for (int i = 0; i < 4; i++) {
+            mesa.agregarCarta(mazo.agarrarCarta());
+        }
     }
 
 
@@ -268,5 +285,19 @@ public class Partida implements Observable {
         return resultado;
     }
 
+
+    public ArrayList<Carta> getCartasMesa() {
+        return mesa.getCartas();
+    }
+
+    public ArrayList<Carta> getCartasJugador(String nombre) {
+
+        for (Jugador j : jugadores){
+            if (j.compararNombre(nombre)){
+                return  j.getMano();
+            }
+        }
+        throw new RuntimeException("no se encontro el jugador");
+    }
 
 }

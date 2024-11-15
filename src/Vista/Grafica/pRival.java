@@ -1,9 +1,14 @@
 package Vista.Grafica;
 
 import Interfaces.IJugador;
-import Modelo.Main.Jugador;
 
 import javax.swing.*;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import static Modelo.Main.Utils.botonCarta;
+import static Modelo.Main.Utils.botonCartaRotada;
 
 public class pRival extends JPanel {
     private IJugador jugador;
@@ -23,12 +28,30 @@ public class pRival extends JPanel {
         return this.jugador.getNombre();
     }
 
-    public void setJugador(IJugador jugador) {
+    /**
+     * Crea todo lo necesario en el panel con respecto al jugador al iniciar la partida y devuelve el boton usado como pozo para el rival
+     */
+    public JButton setJugador(IJugador jugador) {
         this.jugador = jugador;
         this.usado = true;
-        add(new JButton(
-                jugador.getTope() != null ? jugador.getTope().toString() : "Pozo Vacio"
-        ));
+        JButton pozo;
+        add(new JLabel(jugador.getNombre()));
+        if (!rotar) {
+            pozo = botonCarta(new JButton(), jugador.getTope() != null ? jugador.getTope().toString() + ".png" : "images/pozo_Vacio.png");
+        }
+        else {
+            pozo = botonCartaRotada(new JButton(), jugador.getTope() != null ? jugador.getTope().toString() + ".png" : "images/pozo_Vacio.png");
+        }
+        add(pozo);
+        for (int i = 0 ; i < jugador.getCantCartasEnMano(); i++) {
+            if (!rotar){
+                add(botonCarta(new JButton(),"images/cartas/dorso.jpg"));
+            }
+            else{
+                add(botonCartaRotada(new JButton(),"images/cartas/dorso.jpg"));
+            }
+        }
+        return pozo;
     }
 
     public void rotar() {

@@ -9,6 +9,5 @@ public class Test {
         Partida partida = new Partida();
         ControladorGrafico controladorGrafico1 = new ControladorGrafico(partida);
         ControladorGrafico controladorGrafico2 = new ControladorGrafico(partida);
-        ControladorGrafico controladorGrafico3 = new ControladorGrafico(partida);
     }
 }
