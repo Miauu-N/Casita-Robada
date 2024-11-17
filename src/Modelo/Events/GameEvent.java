@@ -10,7 +10,7 @@ public class GameEvent {
     }
 
     public GameEvent(EventType tipo){
-        new GameEvent(tipo,null);
+        this.tipo = tipo;
     }
 
     public EventType getTipo() {

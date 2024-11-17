@@ -27,7 +27,7 @@ public class Jugador implements IJugador {
     }
 
     public ArrayList<Carta> getMano() {
-        return this.mano;
+        return (ArrayList<Carta>) this.mano.clone();
     }
 
     public Jugador(String nombre) {

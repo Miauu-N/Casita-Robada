@@ -105,4 +105,12 @@ public class Grafica {
     public void robarPozo(String jugador, int selected) {
         controlador.robarPozo(jugador,selected);
     }
+
+    public void actualizarCartas(ArrayList<IJugador> jugadores) {
+        partida.actualizarCartas(jugadores);
+    }
+
+    public void agarrarCartaMesa(int mesa, int mano) {
+        controlador.agarrarCartaMesa(mesa,mano);
+    }
 }

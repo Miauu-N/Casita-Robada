@@ -46,7 +46,10 @@ public class ControladorGrafico implements Observer {
             case EventType.preguntarModoParejas -> {
                 grafica.preguntarParejas();
             }
-            case updateCartas -> {}
+            case updateCartas -> {
+                ArrayList<IJugador> jugadores = (ArrayList<IJugador>) e.getContenido();
+                grafica.actualizarCartas(jugadores);
+            }
 
             case empezoElJuego -> {
                 IJugador turno = (IJugador) e.getContenido();
@@ -57,6 +60,13 @@ public class ControladorGrafico implements Observer {
             }
 
             case preguntarNuevaRonda -> {}
+
+            case AsignarTurno -> {
+                IJugador turno = (IJugador) e.getContenido();
+                if (jugador.compararNombre(turno)) {
+                    grafica.asignarTurno();
+                }
+            }
 
             case jugadorListo -> {
                 ArrayList<IJugador> jugadores = (ArrayList<IJugador>) e.getContenido();
@@ -90,5 +100,9 @@ public class ControladorGrafico implements Observer {
 
     public void robarPozo(String jugador, int selected) {
         partida.ligarPozo(selected, jugador);
+    }
+
+    public void agarrarCartaMesa(int mesa, int mano) {
+        partida.ligarCarta(mesa,mano);
     }
 }

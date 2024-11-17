@@ -121,7 +121,7 @@ public class Partida implements Observable {
             }
             turno.getPozo().agregarCarta(mesa.tomarCarta(indice1));
             turno.getPozo().agregarCarta(mesa.tomarCarta(indice2));
-            notificar(new GameEvent(EventType.updateCartas));
+            notificar(new GameEvent(EventType.updateCartas,getIJugadores()));
         }
         else {
             System.out.println("Jugada incorrecta");
@@ -133,7 +133,7 @@ public class Partida implements Observable {
         boolean jugadaCorrecta = false;
 
         Carta select = turno.getCarta(carta);
-        if (turno.getCarta(carta).equals(target.getTope()) && !mesa.tiene(select)){
+        if (select.equals(target.getTope()) && !mesa.tiene(select)){
             target.getPozo().agregarCarta(select);
             if (target != turno){
                 target.getPozo().pasarCartas(turno.getPozo());
@@ -142,16 +142,16 @@ public class Partida implements Observable {
         }
         if (!jugadaCorrecta){
             System.out.println("Jugada invalida");
-            dejarCarta(carta);
+            dejarCarta(select);
         }
     }
 
     public void ligarPozo(int carta,String jugador){
-        Jugador j = buscarJugador(carta, jugador);
+        Jugador j = buscarJugador(jugador);
         ligarPozo(carta,j);
     }
 
-    private Jugador buscarJugador(int carta, String jugador) {
+    private Jugador buscarJugador(String jugador) {
         for (Jugador j : jugadores){
             if (j.compararNombre(jugador)){
                 return j;
@@ -162,16 +162,33 @@ public class Partida implements Observable {
 
     private void terminarTurno() {
 
-        mostrarSituacionPartida(turno);
+        mostrarSituacionPartida(turno); // todo
 
-        if (mazo.cantCartas() > jugadores.size() * 3){
-            pasarTurno();
-            repartir();
-            notificar(new GameEvent(EventType.updateCartas));
+        if (!tienenCartas()) {
+            if (mazo.cantCartas() > jugadores.size() * 3){
+                repartir();
+                pasarTurno();
+                notificar(new GameEvent(EventType.updateCartas,getIJugadores()));
+                notificar(new GameEvent(EventType.AsignarTurno,(IJugador) turno));
+            }
+            else {
+                notificar(new GameEvent(EventType.preguntarNuevaRonda));
+            }
         }
         else {
-            notificar(new GameEvent(EventType.preguntarNuevaRonda));
+            pasarTurno();
+            notificar(new GameEvent(EventType.updateCartas,getIJugadores()));
+            notificar(new GameEvent(EventType.AsignarTurno,(IJugador) turno));
         }
+    }
+
+    private boolean tienenCartas() {
+        for (Jugador j : jugadores){
+            if (j.getCantCartasEnMano() > 0){
+                return true;
+            }
+        }
+        return false;
     }
 
     public void respuestaPreguntarNuevaRonda(boolean x){
@@ -179,7 +196,7 @@ public class Partida implements Observable {
             nuevaRonda();
             pasarTurno();
             repartir();
-            notificar(new GameEvent(EventType.updateCartas));
+            notificar(new GameEvent(EventType.updateCartas,getIJugadores()));
         }
         else {
             terminarPartida();
@@ -194,6 +211,10 @@ public class Partida implements Observable {
         mesa.agregarCarta(turno.getCarta(select));
         terminarTurno();
     }
+    private void dejarCarta(Carta select) {
+        mesa.agregarCarta(select);
+        terminarTurno();
+    }
 
     private void mostrarSituacionPartida(Jugador j) {
         System.out.println("Turno de " + j.getNombre() + "!!");
@@ -203,8 +224,7 @@ public class Partida implements Observable {
         System.out.println();
 
         System.out.println("Mesa: ");
-        mesa.getCartas();
-        System.out.println();
+        System.out.println(mesa.getCartas());
 
         System.out.println("Pozos: ");
         Utils.mostrarTopes(jugadores);
@@ -300,4 +320,22 @@ public class Partida implements Observable {
         throw new RuntimeException("no se encontro el jugador");
     }
 
+    public void ligarCarta(int cartaMesa, int mano) {
+        Carta select = turno.getCarta(mano);
+
+        boolean buenaJugada = false;
+
+        if (select.getNumero() == mesa.verCarta(cartaMesa).getNumero()){
+            turno.agregarPozo(mesa.tomarCarta(cartaMesa));
+            turno.agregarPozo(select);
+            terminarTurno();
+            buenaJugada = true;
+        }
+
+        if (!buenaJugada){
+            System.out.println("Jugada equivocada");
+            dejarCarta(select);
+        }
+
+    }
 }

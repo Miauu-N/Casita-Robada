@@ -43,58 +43,106 @@ public class Partida implements IVentana {
                 pRival panel = pRivales.get(i++);
                 JButton e = panel.setJugador(j);
                 e.addActionListener(new ActionListener() {
+
+                    // Robar un pozo
+
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        System.out.println("Robar pozo de: " + jugador.getNombre() ); // todo ...
-
+                        System.out.println("Robar pozo de: " + j.getNombre() ); // todo ...
+                        robarPozo(j.getNombre());
                     }
                 });
+                e.setEnabled(false);
                 botonesJugadas.add(e);
             }
         }
 
-        i = 0;
-        for (Carta c : grafica.pedirCartasMesa()){
-            JButton cartaMesa = botonCarta(new JButton(), cartaToPath(c));
-            int finalI = i;
-            cartaMesa.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    activarJugadas(false);
-                    System.out.println("Robar de la mesa: " + finalI + " con la carta: " + selected); //todo ...
-                }
-            });
-            pMesa.add(cartaMesa);
-            botonesJugadas.add(cartaMesa);
-            i++;
-        }
+        crearBotonesMesa();
 
         botonCarta(lPozo, cartaToPath(jugador.getTope())).addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println("Robar pozo de: " + nombreJugador.getNombre() ); // todo ...
                 robarPozo(nombreJugador.getNombre());
+
             }
         });
+        lPozo.setEnabled(false);
+        botonesJugadas.add(lPozo);
 
-        ArrayList<Carta> mano = grafica.pedirCartasJugador(jugador.getNombre());
+        crearCartasMano();
+    }
+
+    private void crearCartasMano() {
+        pMano.removeAll();
+        pMano.updateUI();
+        int i;
+        ArrayList<Carta> mano = grafica.pedirCartasJugador(nombreJugador.getNombre());
         i = 0;
         for (Carta c : mano){
             JButton boton = botonCarta(new JButton(), cartaToPath(c));
             pMano.add(boton);
             int finalI1 = i;
             boton.addActionListener(new ActionListener() {
+
+                // seleccionar carta en la mano
+
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     selected = finalI1;
                     activarMano(false,true);
                     System.out.println("Carta seleccionada: " + finalI1);
                 }
+
             });
+            boton.setEnabled(false);
             i++;
             this.botonesMano.add(boton);
         }
-        activarJugadas(false);
-        activarMano(false);
+    }
+
+    private void crearBotonesMesa() {
+        pMesa.removeAll();
+        int i = 0;
+        for (Carta c : grafica.pedirCartasMesa()){
+            JButton cartaMesa = botonCarta(new JButton(), cartaToPath(c));
+            int finalI = i;
+            cartaMesa.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {  // Agarrar una carta de la mesa
+
+                    activarJugadas(false);
+                    System.out.println("Robar de la mesa: " + finalI + " con la carta: " + selected);
+                    grafica.agarrarCartaMesa(finalI,selected);
+                }
+            });
+            cartaMesa.setEnabled(false);
+            pMesa.add(cartaMesa);
+            botonesJugadas.add(cartaMesa);
+            i++;
+        }
+        pMesa.updateUI();
+    }
+
+    private void crearCartasRivales(ArrayList<IJugador> jugadors){
+        int i = 0;
+
+        for (IJugador j : jugadors){
+            if (j.compararNombre(nombreJugador)){
+                ImageIcon defaultIcon = new ImageIcon(cartaToPath(j.getTope()));
+                defaultIcon.setImage(defaultIcon.getImage().getScaledInstance(91,127,Image.SCALE_SMOOTH));
+                lPozo.setIcon(defaultIcon);
+            }
+            else {
+                int indicePRival = 0;
+                pRival panel = pRivales.get(indicePRival++);
+                while (!panel.isUsado() || !panel.getJugador().compararNombre(j)) {
+                    panel = pRivales.get(indicePRival++);
+                }
+                panel.actualizar(j);
+            }
+        }
+        updateUI();
     }
 
     private void robarPozo(String jugador) {
@@ -153,4 +201,11 @@ public class Partida implements IVentana {
     public void asignarTurno() {
         activarMano(true);
     }
+
+    public void actualizarCartas(ArrayList<IJugador> jugadores) {
+        crearBotonesMesa();
+        crearCartasRivales(jugadores);
+        crearCartasMano();
+    }
+
 }
