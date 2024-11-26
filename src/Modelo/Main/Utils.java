@@ -11,6 +11,9 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class Utils {
+
+    // TODO: PASAR A LA VISTA
+
     static public void mostrarTopes(ArrayList<Jugador> jugadores){
         for (Jugador j : jugadores){
             System.out.println("Jugador: " + j.getNombre());

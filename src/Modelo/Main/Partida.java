@@ -13,6 +13,9 @@ import Modelo.Exceptions.TipoInputInvalido;
 import java.util.*;
 
 public class Partida implements Observable {
+
+    // TODO: AGREGAR UN BOOLEANO PARA SOPLAR
+
     private ArrayList<Observer> observers;
 
     private ArrayList<Jugador> jugadores;

@@ -5,7 +5,7 @@ public enum EventType {
     empezoElJuego,
     updateCartas,
     preguntarNuevaRonda,
-    jugadorAgregado,
-    jugadorListo, AsignarTurno,
+    jugadorListo,
+    AsignarTurno,
 
 }
