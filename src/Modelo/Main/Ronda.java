@@ -3,14 +3,11 @@ package Modelo.Main;
 import Modelo.Cartas.Carta;
 import Modelo.Cartas.Mazo;
 import Modelo.Exceptions.NoCardsException;
+import Vista.Grafica.Utils;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
-//TODO: testear robar pozo
-//TODO: crear partida
-//TODO: robar pozo no anda
-//TODO: ligar mesa test fail (3 carta - 1 mesa)
 
 
 public class Ronda {

@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Vista.Grafica.Reglas">
   <grid id="27dc6" binding="panel1" custom-create="true" default-binding="true" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
-      <xy x="20" y="20" width="500" height="400"/>
+      <xy x="20" y="20" width="10959" height="581"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -35,10 +35,13 @@
         </properties>
         <border type="none"/>
         <children>
-          <component id="e2502" class="javax.swing.JLabel" binding="reglasEscritas">
+          <component id="4af1" class="javax.swing.JTextArea" binding="a1ObjetivoElJuegoTextArea" default-binding="true">
             <constraints/>
             <properties>
-              <text value="Aca van las reglas"/>
+              <font size="16"/>
+              <foreground color="-1"/>
+              <opaque value="false"/>
+              <text value="1.Objetivo&#10; El juego consiste en ligar cualquiera de las cartas que se tienen en la mano con otra de igual número que&#10; se halle sobre la mesa, o en la parte superior del pozo de cada jugador; en este último caso se le roba todo el pozo.&#10;2.Jugadores&#10; Pueden intervenir entre 2 a 4 Jugadores, en forma individual o por parejas.&#10;3.Inicio del juego&#10; se reparten tres cartas a cada jugador, descubriendo luego cuatro cartas boca arriba sobre la mesa. Cuando cada jugador&#10; haya jugado sus tres cartas,se deben repartir otras tres a cada uno.&#10;4.Desarrollo del juego&#10; El juego es comenzado por el mano, quien, si tiene entre sus cartas alguna que liga con las de la&#10; mesa, baja la suya reuniéndola con la otra y diciendo qué cartas liga.&#10; Si hubiera sobre la mesa dos cartas de igual número, sólo podrá robar una de ellas. Las dos cartas que así&#10; reúne las coloca hacia arriba a su lado iniciando así su pozo) y pasa el turno al siguiente; las cartas que en&#10; sucesivas manos vaya reuniendo, las ubicará sobre las que ya tenga.  El siguiente jugador podrá, con alguna de sus cartas,&#10; ligar con cualquiera de las de la mesa o con la superior del pozo del contrario. Esto último, siempre y cuando ambas sean&#10; de diferente número, ya que si la carta superior del pozo del contrario tuviera, por ejemplo, un cuatro, habiendo otro cuatro&#10; sobre la mesa, no podrá robarle al jugador, debiéndose limitar a ligar su cuatro con el de la mesa.  Hecha cada jugada, el&#10; turno pasa al siguiente jugador, procediendo de la misma manera. Una vez que todos han jugado sus tres cartas, se reparten&#10; otras tantas a cada jugador.  Acabado el mazo y jugadas las tres últimas cartas por cada jugador, finaliza&#10; la partida, resultando ganador aquél que más cartas haya logrado reunir en su tesoro (pozo)." noi18n="true"/>
             </properties>
           </component>
         </children>

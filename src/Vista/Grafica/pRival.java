@@ -5,13 +5,16 @@ import Interfaces.IJugador;
 import javax.swing.*;
 
 import java.awt.*;
+import java.nio.file.FileAlreadyExistsException;
+import java.util.ArrayList;
 
-import static Modelo.Main.Utils.*;
+import static Vista.Grafica.Utils.*;
 
 public class pRival extends JPanel {
     private IJugador jugador;
     private boolean rotar = false;
     private JButton pozo;
+    private JButton[] dorsos = new JButton[3];
 
     public boolean isUsado() {
         return this.usado;
@@ -34,7 +37,12 @@ public class pRival extends JPanel {
         this.jugador = jugador;
         this.usado = true;
         JButton pozo;
-        add(new JLabel(jugador.getNombre()));
+        JPanel pane = new JPanel(new FlowLayout());
+        JLabel lnombre = new JLabel(jugador.getNombre());
+        lnombre.setForeground(Color.WHITE);
+        pane.add(lnombre);
+        pane.setOpaque(false);
+        add(pane);
         if (!rotar) {
             pozo = botonCarta(new JButton(), jugador.getTope() != null ? jugador.getTope().toString() + ".png" : "images/pozo_Vacio.png");
         }
@@ -42,13 +50,16 @@ public class pRival extends JPanel {
             pozo = botonCartaRotada(new JButton(), jugador.getTope() != null ? jugador.getTope().toString() + ".png" : "images/pozo_Vacio.png");
         }
         add(pozo);
-        for (int i = 0 ; i < jugador.getCantCartasEnMano(); i++) {
+        for (int i = 0 ; i < 3; i++) {
+            JButton dorso;
             if (!rotar){
-                add(botonCarta(new JButton(),"images/cartas/dorso.jpg"));
+                dorso = botonCarta(new JButton(), "images/cartas/dorso.jpg");
             }
             else{
-                add(botonCartaRotada(new JButton(),"images/cartas/dorso.jpg"));
+                dorso = botonCartaRotada(new JButton(), "images/cartas/dorso.jpg");
             }
+            add(dorso);
+            dorsos[i] = dorso;
         }
         this.pozo = pozo;
         return pozo;
@@ -60,9 +71,26 @@ public class pRival extends JPanel {
     }
 
     public void actualizar(IJugador j) {
-        ImageIcon defaultIcon = new ImageIcon(cartaToPath(j.getTope()));
-        defaultIcon.setImage(defaultIcon.getImage().getScaledInstance(91,127, Image.SCALE_SMOOTH));
-        pozo.setIcon(defaultIcon);
+        activarDorsos(j.getCantCartasEnMano());
+        ImageIcon imageIcon = new ImageIcon(cartaToPath(j.getTope()));
+        imageIcon.setImage(imageIcon.getImage().getScaledInstance(91,127, Image.SCALE_SMOOTH));
+        if (rotar){
+            Image ima = rotarImagen(imageIcon,90);
+            imageIcon.setImage(ima);
+        }
+        pozo.setIcon(imageIcon);
         updateUI();
+    }
+
+    public void activarDorsos(int i){
+        for (JButton d : dorsos){
+            if (i != 0){
+                d.setVisible(true);
+                i--;
+            }
+            else {
+                d.setVisible(false);
+            }
+        }
     }
 }

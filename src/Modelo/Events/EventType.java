@@ -1,11 +1,13 @@
 package Modelo.Events;
 
 public enum EventType {
-    preguntarModoParejas,
+    todosListos,
     empezoElJuego,
     updateCartas,
-    preguntarNuevaRonda,
+    rondaTerminada,
     jugadorListo,
     AsignarTurno,
+    seleccionDeEquipos,
+    ganador,
 
 }

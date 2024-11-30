@@ -10,12 +10,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import static Modelo.Main.Utils.botonCarta;
-import static Modelo.Main.Utils.cartaToPath;
+import static Vista.Grafica.Utils.botonCarta;
+import static Vista.Grafica.Utils.cartaToPath;
 
 public class Partida implements IVentana {
     private final Grafica grafica;
-    private ArrayList<JButton> botonesMano;
+    private final ArrayList<JButton> botonesMano;
     private JPanel panel1;
     private JPanel pMesa;
     private JPanel pJugador;
@@ -25,13 +25,16 @@ public class Partida implements IVentana {
     private JPanel pRival3;
     private JButton lPozo;
     private JPanel pMano;
-    private IJugador nombreJugador;
-    private ArrayList<JButton> botonesJugadas;
+    private final IJugador nombreJugador;
+    private final ArrayList<JButton> botonesJugadas;
+    private ArrayList<JButton> botonesMesa;
     private int selected;
+    private boolean soplar = false;
 
     public Partida(Grafica grafica, ArrayList<IJugador> jugadors) {
         this.botonesJugadas = new ArrayList<>();
         this.botonesMano = new ArrayList<>();
+        this.botonesMesa = new ArrayList<>();
         this.grafica = grafica;
 
         IJugador jugador = grafica.pedirJugador();
@@ -109,11 +112,24 @@ public class Partida implements IVentana {
             int finalI = i;
             cartaMesa.addActionListener(new ActionListener() {
                 @Override
-                public void actionPerformed(ActionEvent e) {  // Agarrar una carta de la mesa
+                public void actionPerformed(ActionEvent e) {
 
-                    activarJugadas(false);
-                    System.out.println("Robar de la mesa: " + finalI + " con la carta: " + selected);
-                    grafica.agarrarCartaMesa(finalI,selected);
+                    // Agarrar una carta de la mesa
+
+                    if(selected == -1){
+                        soplar = true;
+                        selected = finalI;
+                    }
+                    else if (soplar) {
+                        soplar(finalI);
+                    }
+                    else {
+                        activarJugadas(false);
+                        System.out.println("Robar de la mesa: " + finalI + " con la carta: " + selected);
+                        grafica.agarrarCartaMesa(finalI, selected);
+                        selected = -1;
+                    }
+
                 }
             });
             cartaMesa.setEnabled(false);
@@ -121,7 +137,32 @@ public class Partida implements IVentana {
             botonesJugadas.add(cartaMesa);
             i++;
         }
+
+        // boton dejar carta
+        // "images/pozo_Vacio.png"
+        JButton cartaMesa = botonCarta(new JButton(), "images/pozo_Vacio.png",true);
+        cartaMesa.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                activarJugadas(false);
+                grafica.dejarCarta(selected);
+                selected = -1;
+            }
+        });
+        cartaMesa.setEnabled(false);
+        pMesa.add(cartaMesa);
+        botonesJugadas.add(cartaMesa);
+
+
         pMesa.updateUI();
+    }
+
+    private void soplar(int indice) {
+        grafica.soplar(indice,selected);
+        soplar = false;
+        selected = -1;
+        activarJugadas(false);
+        activarMano(true);
     }
 
     private void crearCartasRivales(ArrayList<IJugador> jugadors){
@@ -149,11 +190,15 @@ public class Partida implements IVentana {
         activarJugadas(false);
         System.out.println("Robar mazo a : " + nombreJugador.getNombre());
         grafica.robarPozo(jugador,selected);
+        selected = -1;
     }
 
     private void activarMano(Boolean mano,boolean activarJugadas) {
         for (JButton b : botonesMano){
             b.setEnabled(mano);
+        }
+        for (Component c : pMesa.getComponents()){
+            c.setEnabled(mano);
         }
         if (activarJugadas) {
             activarJugadas(true);
@@ -162,6 +207,9 @@ public class Partida implements IVentana {
     private void activarMano(Boolean mano) {
         for (JButton b : botonesMano){
             b.setEnabled(mano);
+        }
+        for (Component c : pMesa.getComponents()){
+            c.setEnabled(mano);
         }
     }
 
@@ -183,6 +231,10 @@ public class Partida implements IVentana {
     }
 
     private void createUIComponents() {
+        PanelConFondo pan = new PanelConFondo();
+        pan.setImagen("/partidaBG.png");
+        panel1 = pan;
+        panel1.updateUI();
         pRival pRival1 = new pRival();
         pRival pRival2 = new pRival();
         pRival pRival3 = new pRival();
@@ -200,6 +252,8 @@ public class Partida implements IVentana {
 
     public void asignarTurno() {
         activarMano(true);
+        soplar = false;
+        selected = -1;
     }
 
     public void actualizarCartas(ArrayList<IJugador> jugadores) {

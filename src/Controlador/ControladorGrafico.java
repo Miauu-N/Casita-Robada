@@ -43,7 +43,7 @@ public class ControladorGrafico implements Observer {
     public void update(GameEvent e) {
         switch (e.getTipo()){
 
-            case EventType.preguntarModoParejas -> {
+            case EventType.todosListos -> {
                 grafica.preguntarParejas();
             }
             case updateCartas -> {
@@ -59,7 +59,7 @@ public class ControladorGrafico implements Observer {
                 }
             }
 
-            case preguntarNuevaRonda -> {}
+            case rondaTerminada -> {}
 
             case AsignarTurno -> {
                 IJugador turno = (IJugador) e.getContenido();
@@ -104,5 +104,13 @@ public class ControladorGrafico implements Observer {
 
     public void agarrarCartaMesa(int mesa, int mano) {
         partida.ligarCarta(mesa,mano);
+    }
+
+    public void soplar(int c1, int c2) {
+        partida.soplar(c1,c2);
+    }
+
+    public void dejarCarta(int selected) {
+        partida.dejarCarta(selected);
     }
 }

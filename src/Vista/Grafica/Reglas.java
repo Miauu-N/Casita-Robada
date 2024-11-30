@@ -11,8 +11,8 @@ public class Reglas implements Interfaces.IVentana {
     private JPanel Top;
     private JPanel Mid;
     private JLabel reglas;
-    private JLabel reglasEscritas;
     private JButton botonVolver;
+    private JTextArea a1ObjetivoElJuegoTextArea;
 
     public Reglas(Grafica grafica) {
         botonVolver.addActionListener(new ActionListener() {

@@ -9,12 +9,11 @@ import Modelo.Events.EventType;
 import Modelo.Events.GameEvent;
 import Modelo.Exceptions.InvalidInputException;
 import Modelo.Exceptions.TipoInputInvalido;
+import Vista.Grafica.Utils;
 
 import java.util.*;
 
 public class Partida implements Observable {
-
-    // TODO: AGREGAR UN BOOLEANO PARA SOPLAR
 
     private ArrayList<Observer> observers;
 
@@ -29,16 +28,13 @@ public class Partida implements Observable {
     private Mesa mesa;
 
     private Mazo mazo;
+    private ArrayList<Equipo> equipos;
 
 
     public Partida(){
         observers = new ArrayList<>();
         this.jugadores = new ArrayList<>();
 
-//        Collections.shuffle(jugadores);
-//        Ronda ronda = new Ronda(jugadores);
-//        ronda.jugar();
-//
 //        System.out.println("Desea jugar otra ronda? (S/N)");
 //        String continuar = scanner.next();
 //
@@ -51,15 +47,6 @@ public class Partida implements Observable {
 //
 //        System.out.println("Puntaje: ");
 //
-//        if (parejas){
-//            System.out.println(equipos[0]);
-//            System.out.println(equipos[1]);
-//        }
-//        else {
-//            for (Jugador j : jugadores){
-//                System.out.println(j + ": " + j.getPuntos());
-//            }
-//        }
 
 
     }
@@ -96,8 +83,8 @@ public class Partida implements Observable {
 
     public void empezarJuego() {
         partidaEmpezada = true;
-        if (jugadores.size() == 5 ){ // todo
-            notificar(new GameEvent(EventType.preguntarModoParejas));
+        if (jugadores.size() == 5 ){ // todo cambiar para que lo compruebe el controlador
+            notificar(new GameEvent(EventType.todosListos));
         }
         else{
             parejas = false;
@@ -107,11 +94,22 @@ public class Partida implements Observable {
 
     public void respuestaParejas(boolean equipos){
         if (equipos){
-            // TODO: formar equipos
+            notificar(new GameEvent(EventType.seleccionDeEquipos,getIJugadores()));
+            parejas = true;
         }
         else{
             parejas = false;
             empezarPartida();
+        }
+    }
+
+    public void armarEquipos(String[] jugadores){
+        for (int i = 0; i<2 ; i++){
+            ArrayList<Jugador> equipo = new ArrayList<>();
+            equipo.add(buscarJugador(jugadores[i * 2]));
+            equipo.add(buscarJugador(jugadores[i * 2 +1]));
+            Equipo team = new Equipo(equipo,i + "");
+            this.equipos.add(team);
         }
     }
 
@@ -133,17 +131,15 @@ public class Partida implements Observable {
     }
 
     public void ligarPozo(int carta,Jugador target){
-        boolean jugadaCorrecta = false;
-
         Carta select = turno.getCarta(carta);
         if (select.equals(target.getTope()) && !mesa.tiene(select)){
             target.getPozo().agregarCarta(select);
-            if (target != turno){
+            if (!target.compararNombre(turno)){
                 target.getPozo().pasarCartas(turno.getPozo());
             }
             terminarTurno();
         }
-        if (!jugadaCorrecta){
+        else{
             System.out.println("Jugada invalida");
             dejarCarta(select);
         }
@@ -165,7 +161,7 @@ public class Partida implements Observable {
 
     private void terminarTurno() {
 
-        mostrarSituacionPartida(turno); // todo
+        mostrarSituacionPartida(turno); // todo: sacar
 
         if (!tienenCartas()) {
             if (mazo.cantCartas() > jugadores.size() * 3){
@@ -175,7 +171,7 @@ public class Partida implements Observable {
                 notificar(new GameEvent(EventType.AsignarTurno,(IJugador) turno));
             }
             else {
-                notificar(new GameEvent(EventType.preguntarNuevaRonda));
+                notificar(new GameEvent(EventType.rondaTerminada));
             }
         }
         else {
@@ -207,10 +203,32 @@ public class Partida implements Observable {
     }
 
     private void terminarPartida() {
-        //TODO
+        if (parejas){
+            if(equipos.get(0).sumarPuntos() > equipos.get(1).sumarPuntos()){
+                notificar(new GameEvent(EventType.ganador,equipos.get(0).getJugadoresEncapsulados()));
+            }
+            else if(equipos.get(0).sumarPuntos() > equipos.get(1).sumarPuntos()){
+                notificar(new GameEvent(EventType.ganador,equipos.get(1).getJugadoresEncapsulados()));
+            }
+        }
+        else {
+            int max = jugadores.getFirst().getPuntos();
+            ArrayList<IJugador> ganadores = new ArrayList<>();
+            for (Jugador j : jugadores){
+                if (j.getPuntos() > max){
+                    max = j.getPuntos();
+                    ganadores.clear();
+                    ganadores.add((IJugador)j);
+                } else if (j.getPuntos() == max) {
+                    ganadores.add((IJugador)j);
+                }
+            }
+            notificar(new GameEvent(EventType.ganador,ganadores));
+        }
+
     }
 
-    private void dejarCarta(int select) {
+    public void dejarCarta(int select) {
         mesa.agregarCarta(turno.getCarta(select));
         terminarTurno();
     }

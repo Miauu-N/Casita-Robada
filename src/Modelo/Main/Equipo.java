@@ -1,5 +1,7 @@
 package Modelo.Main;
 
+import Interfaces.IJugador;
+
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -28,17 +30,27 @@ public class Equipo {
         this.puntos += cantidad;
     }
 
-    public void sumarPuntos(){
+    public int sumarPuntos(){
         int resultado = 0;
         for (Jugador j : jugadores){
             resultado += j.getPuntos();
+            j.reiniciarPuntos();
         }
-        this.puntos = resultado;
+        this.puntos += resultado;
+        return puntos;
     }
 
     @Override
     public String toString() {
         sumarPuntos();
         return nombre + ": " + puntos;
+    }
+
+    public ArrayList<IJugador> getJugadoresEncapsulados() {
+        ArrayList<IJugador> resultado = new ArrayList<>();
+        for (Jugador j : jugadores){
+            resultado.add((IJugador) j);
+        }
+        return resultado;
     }
 }

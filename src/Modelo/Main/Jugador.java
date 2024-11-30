@@ -118,4 +118,8 @@ public class Jugador implements IJugador {
         mano.clear();
         pozo.limpiarCartas();
     }
+
+    public void reiniciarPuntos(){
+        puntos = 0;
+    }
 }

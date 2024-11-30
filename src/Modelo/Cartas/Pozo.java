@@ -32,7 +32,7 @@ public class Pozo {
 
     public void pasarCartas(Pozo pozo) {
         while (!this.pozo.isEmpty()){
-            pozo.pozo.add(this.pozo.removeFirst()); // TODO chequear si queda bien cuando se roba
+            pozo.pozo.add(this.pozo.removeFirst());
         }
     }
 

@@ -1,7 +1,8 @@
-package Modelo.Main;
+package Vista.Grafica;
 
 import Modelo.Cartas.Carta;
 import Modelo.Exceptions.NoCardsException;
+import Modelo.Main.Jugador;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,6 +32,17 @@ public class Utils {
         ImageIcon icon = new ImageIcon(string);
         Image image = icon.getImage().getScaledInstance(91,127,Image.SCALE_SMOOTH);
         boton.setIcon(new ImageIcon(image));
+        boton.setBorderPainted(false);
+        boton.setContentAreaFilled(false);
+        boton.setFocusPainted(false);
+        boton.updateUI();
+        return boton;
+    }
+    public static JButton botonCarta(JButton boton, String string,boolean x) {
+        ImageIcon icon = new ImageIcon(string);
+        Image image = icon.getImage().getScaledInstance(91,127,Image.SCALE_SMOOTH);
+        boton.setIcon(new ImageIcon(image));
+        boton.setDisabledIcon(new ImageIcon(image));
         boton.setBorderPainted(false);
         boton.setContentAreaFilled(false);
         boton.setFocusPainted(false);

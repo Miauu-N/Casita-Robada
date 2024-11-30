@@ -113,4 +113,12 @@ public class Grafica {
     public void agarrarCartaMesa(int mesa, int mano) {
         controlador.agarrarCartaMesa(mesa,mano);
     }
+
+    public void soplar(int c1, int c2) {
+        controlador.soplar(c1,c2);
+    }
+
+    public void dejarCarta(int selected) {
+        controlador.dejarCarta(selected);
+    }
 }
