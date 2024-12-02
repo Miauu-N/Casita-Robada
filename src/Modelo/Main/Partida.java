@@ -11,12 +11,11 @@ import Modelo.Exceptions.InvalidInputException;
 import Modelo.Exceptions.InvalidNameException;
 import Modelo.Exceptions.TipoInputInvalido;
 import Vista.Grafica.Utils;
+import ar.edu.unlu.rmimvc.observer.ObservableRemoto;
 
 import java.util.*;
 
-public class Partida implements Observable {
-
-    private ArrayList<Observer> observers;
+public class Partida extends ObservableRemoto implements Observable {
 
     private ArrayList<Jugador> jugadores;
 
@@ -34,7 +33,6 @@ public class Partida implements Observable {
 
 
     public Partida(){
-        observers = new ArrayList<>();
         this.jugadores = new ArrayList<>();
         this.equipos = new ArrayList<>();
 
@@ -53,23 +51,14 @@ public class Partida implements Observable {
 
 
     }
-
+/*
     @Override
     public void notificar(GameEvent e) {
         for (Observer o : observers){
             o.update(e);
         }
     }
-
-    @Override
-    public void addObserver(Observer o) {
-        observers.add(o);
-    }
-
-    @Override
-    public void removeObserver(Observer observer) {
-        observers.remove(observer);
-    }
+*/
 
     public IJugador addJugador(String nombre) throws InvalidInputException, InvalidNameException {
         if (jugadores.size() >= 4){
@@ -347,20 +336,25 @@ public class Partida implements Observable {
     }
 
     public void ligarCarta(int cartaMesa, int mano) {
-        Carta select = turno.getCarta(mano);
+        try {
+            Carta select = turno.getCarta(mano);
 
-        boolean buenaJugada = false;
+            boolean buenaJugada = false;
 
-        if (select.getNumero() == mesa.verCarta(cartaMesa).getNumero()){
-            turno.agregarPozo(mesa.tomarCarta(cartaMesa));
-            turno.agregarPozo(select);
-            terminarTurno();
-            buenaJugada = true;
-        }
+            if (select.getNumero() == mesa.verCarta(cartaMesa).getNumero()){
+                turno.agregarPozo(mesa.tomarCarta(cartaMesa));
+                turno.agregarPozo(select);
+                terminarTurno();
+                buenaJugada = true;
+            }
 
-        if (!buenaJugada){
-            System.out.println("Jugada equivocada");
-            dejarCarta(select);
+            if (!buenaJugada){
+                System.out.println("Jugada equivocada");
+                dejarCarta(select);
+            }
+        } catch (Exception e) {
+            System.out.println("indice incorrecto");
+            dejarCarta(0);
         }
 
     }

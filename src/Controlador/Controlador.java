@@ -9,11 +9,10 @@ import Modelo.Exceptions.InvalidInputException;
 import Modelo.Events.GameEvent;
 import Modelo.Exceptions.InvalidNameException;
 import Modelo.Main.Partida;
-import Vista.Grafica.Grafica;
 
 import java.util.ArrayList;
 
-public class ControladorGrafico implements Observer {
+public class Controlador implements Observer {
 
     private iVista grafica;
 
@@ -25,7 +24,7 @@ public class ControladorGrafico implements Observer {
     public IJugador getJugador() {
         return this.jugador;
     }
-    public ControladorGrafico(Partida partida,iVista grafica) {
+    public Controlador(Partida partida, iVista grafica) {
         this.grafica =grafica;
         this.partida = partida;
         this.partida.addObserver(this);

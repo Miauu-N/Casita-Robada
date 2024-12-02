@@ -1,6 +1,6 @@
 package Vista.Grafica;
 
-import Controlador.ControladorGrafico;
+import Controlador.Controlador;
 import Interfaces.IJugador;
 import Interfaces.IVentana;
 import Interfaces.iVista;
@@ -12,13 +12,13 @@ import java.util.ArrayList;
 
 public class Grafica implements iVista {
     private JFrame vent;
-    private final ControladorGrafico controlador;
+    private final Controlador controlador;
     private boolean activo = true;
     private VentanaPrincipal menu = null;
     private Vista.Grafica.Partida partida = null;
 
     public Grafica(Modelo.Main.Partida partida){
-        this.controlador = new ControladorGrafico(partida,this);
+        this.controlador = new Controlador(partida,this);
         menuNombre();
     }
 

@@ -1,6 +1,5 @@
 package Vista.Grafica;
 
-import Controlador.ControladorGrafico;
 import Interfaces.iVista;
 import Modelo.Main.Partida;
 import Vista.Consola.Consola;

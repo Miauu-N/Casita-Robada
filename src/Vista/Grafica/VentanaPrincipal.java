@@ -1,6 +1,6 @@
 package Vista.Grafica;
 
-import Controlador.ControladorGrafico;
+import Controlador.Controlador;
 import Interfaces.IJugador;
 import Interfaces.IVentana;
 
@@ -23,7 +23,7 @@ public class VentanaPrincipal implements IVentana {
     private boolean listo = false;
 
 
-    public VentanaPrincipal(ControladorGrafico controlador, Grafica grafica) {
+    public VentanaPrincipal(Controlador controlador, Grafica grafica) {
         this.grafica = grafica;
         Jugar.addActionListener(new ActionListener() {
             @Override

@@ -10,7 +10,7 @@ import Modelo.Exceptions.NoCardsException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Jugador implements IJugador {
+public class Jugador  implements IJugador{
     private String nombre;
     private Mazo mazo;
     private Pozo pozo;

@@ -1,6 +1,6 @@
 package Vista.Grafica;
 
-import Controlador.ControladorGrafico;
+import Controlador.Controlador;
 import Interfaces.IVentana;
 
 import javax.swing.*;
@@ -9,14 +9,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class PreguntarParejas implements IVentana {
-    private final ControladorGrafico controlador;
+    private final Controlador controlador;
     private final Grafica grafica;
     private JPanel panelPrincipal;
     private JButton siButton;
     private JButton noButton;
     private JLabel lPregunta;
 
-    public PreguntarParejas(ControladorGrafico controlador, Grafica grafica, SiONo tipo) {
+    public PreguntarParejas(Controlador controlador, Grafica grafica, SiONo tipo) {
         if (tipo == SiONo.preguntarContinuar){
             lPregunta.setText("Desea Continuar el juego?");
         }
