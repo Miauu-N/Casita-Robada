@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Stack;
 
 public class Pozo implements Serializable {
-    private Stack<Carta> pozo;
+    private final Stack<Carta> pozo;
     int cantidad;
 
     public Pozo() {

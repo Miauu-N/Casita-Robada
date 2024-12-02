@@ -11,7 +11,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class VentanaPrincipal implements IVentana {
-    private Grafica grafica;
     private JPanel pantallaMenu;
     private JPanel north;
     private JPanel titulo;
@@ -24,7 +23,6 @@ public class VentanaPrincipal implements IVentana {
 
 
     public VentanaPrincipal(Controlador controlador, Grafica grafica) {
-        this.grafica = grafica;
         Jugar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

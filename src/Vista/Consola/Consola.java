@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class Consola extends JFrame implements iVista {
-    private Controlador controlador;
+    private final Controlador controlador;
     private JPanel panelPrincipal;
     private JTextArea aJuego;
     private JTextField fConsola;
@@ -22,8 +22,6 @@ public class Consola extends JFrame implements iVista {
     private boolean activo = true;
     private Esperando esperando;
     private boolean ready = false;
-
-    //todo el listo esta medio rarito
 
     public Consola() {
         this.controlador = new Controlador(this);
@@ -215,20 +213,20 @@ public class Consola extends JFrame implements iVista {
     @Override
     public void reglas() {
         aJuego.append("""
-                
+               \s
                 _Objetivo:
                  El juego consiste en ligar cualquiera de las cartas que se tienen en la mano con
                   otra de igual número que se halle sobre la mesa, o en la parte superior del pozo
                   de cada jugador; en este último caso se le roba todo el pozo.
-                 
+                \s
                 _Jugadores:
                  Pueden intervenir entre 2 a 4 Jugadores, en forma individual o por parejas.
-                 
+                \s
                 _Inicio del juego:
                  se reparten tres cartas a cada jugador, descubriendo luego cuatro cartas boca
                   arriba sobre la mesa. Cuando cada jugador haya jugado sus tres cartas,se deben
                   repartir otras tres a cada uno.
-                 
+                \s
                 _Desarrollo del juego:
                  El juego es comenzado por el mano, quien, si tiene entre sus cartas alguna que liga
                   con las de la  mesa, baja la suya reuniéndola con la otra y diciendo qué cartas liga.
@@ -244,7 +242,7 @@ public class Consola extends JFrame implements iVista {
                   manera. Una vez que todos han jugado sus tres cartas, se reparten otras tantas a cada
                   jugador.  Acabado el mazo y jugadas las tres últimas cartas por cada jugador, finaliza
                  la partida, resultando ganador aquél que más cartas haya logrado reunir en su tesoro (pozo).
-                """);
+               \s""");
         panelPrincipal.updateUI();
     }
 
@@ -275,7 +273,7 @@ public class Consola extends JFrame implements iVista {
                 """);
         for (IJugador j : ganadores){
             aJuego.append("\n" + j.getNombre());
-        };
+        }
     }
 
     @Override
@@ -283,7 +281,7 @@ public class Consola extends JFrame implements iVista {
         activo = false;
         panelPrincipal.setVisible(false);
         // todo volver en rmi
-        // System.exit(0);
+        System.exit(0);
     }
 
     @Override
@@ -340,7 +338,7 @@ public class Consola extends JFrame implements iVista {
                 1_ ligar carta de un pozo
                 2_ soplar
                 3_ dejar una carta
-                """); // todo aca quede :p
+                """);
     }
 
     @Override
@@ -360,8 +358,6 @@ public class Consola extends JFrame implements iVista {
 
         aJuego.append("\nPozos: ");
         mostrarPozos(jugadores);
-
-        //todo: agregar que si es tu turno muestre las posibilidades
     }
 
     private void mostrarPozos(ArrayList<IJugador> jugadores) {

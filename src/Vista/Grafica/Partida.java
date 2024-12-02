@@ -29,7 +29,7 @@ public class Partida implements IVentana {
     private final ArrayList<JButton> botonesJugadas;
     private int selected;
     private boolean soplar = false;
-    private ArrayList<JButton> cartasMesa;
+    private final ArrayList<JButton> cartasMesa;
 
     public Partida(Grafica grafica, ArrayList<IJugador> jugadors) {
         this.botonesJugadas = new ArrayList<>();
@@ -164,7 +164,7 @@ public class Partida implements IVentana {
         soplar = false;
         selected = -1;
         activarJugadas(false);
-        activarMano(true);
+        activarMano();
     }
 
     private void crearCartasRivales(ArrayList<IJugador> jugadors){
@@ -206,8 +206,8 @@ public class Partida implements IVentana {
             activarJugadas(true);
         }
     }
-    private void activarMano(Boolean mano) {
-        activarMano(mano,false);
+    private void activarMano() {
+        activarMano(true,false);
     }
 
     private void activarJugadas(boolean x) {
@@ -248,7 +248,7 @@ public class Partida implements IVentana {
     }
 
     public void asignarTurno() {
-        activarMano(true);
+        activarMano();
         soplar = false;
         selected = -1;
     }

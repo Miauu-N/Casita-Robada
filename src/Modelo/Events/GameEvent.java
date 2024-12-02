@@ -3,7 +3,7 @@ package Modelo.Events;
 import java.io.Serializable;
 
 public class GameEvent implements Serializable {
-    private EventType tipo;
+    private final EventType tipo;
     private Object contenido;
 
     public GameEvent(EventType tipo, Object contenido) {

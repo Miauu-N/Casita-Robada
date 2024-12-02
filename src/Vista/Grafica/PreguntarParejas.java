@@ -9,8 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class PreguntarParejas implements IVentana {
-    private final Controlador controlador;
-    private final Grafica grafica;
     private JPanel panelPrincipal;
     private JButton siButton;
     private JButton noButton;
@@ -20,8 +18,6 @@ public class PreguntarParejas implements IVentana {
         if (tipo == SiONo.preguntarContinuar){
             lPregunta.setText("Desea Continuar el juego?");
         }
-        this.controlador = controlador;
-        this.grafica = grafica;
         siButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

@@ -3,13 +3,10 @@ package Modelo.Main;
 import Interfaces.IJugador;
 
 import java.util.ArrayList;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.concurrent.SynchronousQueue;
 
 public class Equipo {
-    ArrayList<Jugador> jugadores;
-    String nombre;
+    final ArrayList<Jugador> jugadores;
+    final String nombre;
     int puntos;
 
     public Equipo(ArrayList<Jugador> jugadores, String nombre) {
@@ -24,10 +21,6 @@ public class Equipo {
 
     public String getNombre() {
         return this.nombre;
-    }
-
-    public void agregarPuntos(int cantidad){
-        this.puntos += cantidad;
     }
 
     public int sumarPuntos(){

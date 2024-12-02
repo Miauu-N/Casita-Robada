@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Jugador  implements IJugador{
-    private String nombre;
+    private final String nombre;
     private Mazo mazo;
-    private Pozo pozo;
+    private final Pozo pozo;
     private int puntos;
-    private ArrayList<Carta> mano;
+    private final ArrayList<Carta> mano;
     private Boolean ready = false;
 
     public Boolean getReady() {

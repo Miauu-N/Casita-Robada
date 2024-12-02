@@ -35,7 +35,6 @@ public class AppServidor {
         try {
             servidor.iniciar(modelo);
         } catch (RemoteException | RMIMVCException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Mazo {
-    private ArrayList<Carta> cartas;
+    private final ArrayList<Carta> cartas;
 
     public Mazo() {
         cartas = new ArrayList<>();

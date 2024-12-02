@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class Controlador implements IControladorRemoto {
 
-    private iVista grafica;
+    private final iVista grafica;
 
     private IModelo partida;
 
@@ -57,10 +57,8 @@ public class Controlador implements IControladorRemoto {
     public void ready() {
         try {
             partida.ready(this.jugador);
-        } catch (RemoteException e) {
-            e.printStackTrace();
         } catch (Exception x) {
-            System.out.println(x);
+            x.printStackTrace();
         }
     }
 
@@ -190,14 +188,7 @@ public class Controlador implements IControladorRemoto {
                 }
             }
 
-            case ganador -> {
-                grafica.ganador((ArrayList<IJugador>) e.getContenido());
-            }
-
-
-//            case null, default -> {
-//                System.out.println("Evento invalido");
-//            }
+            case ganador -> grafica.ganador((ArrayList<IJugador>) e.getContenido());
         }
     }
 }

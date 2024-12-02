@@ -8,8 +8,8 @@ import java.util.Objects;
  */
 
 public class Carta implements Serializable {
-    private Palo palo;
-    private int numero;
+    private final Palo palo;
+    private final int numero;
 
     public Carta(Palo palo, int i) {
         this.palo = palo;

@@ -18,7 +18,7 @@ import java.util.*;
 
 public class Partida extends ObservableRemoto implements IModelo {
 
-    private ArrayList<Jugador> jugadores;
+    private final ArrayList<Jugador> jugadores;
 
     private boolean parejas = false;
 
@@ -29,7 +29,7 @@ public class Partida extends ObservableRemoto implements IModelo {
     private Mesa mesa;
 
     private Mazo mazo;
-    private ArrayList<Equipo> equipos;
+    private final ArrayList<Equipo> equipos;
     private IJugador host;
 
 
@@ -37,29 +37,8 @@ public class Partida extends ObservableRemoto implements IModelo {
         this.jugadores = new ArrayList<>();
         this.equipos = new ArrayList<>();
 
-//        System.out.println("Desea jugar otra ronda? (S/N)");
-//        String continuar = scanner.next();
-//
-//        while (continuar.equalsIgnoreCase("s")){
-//            ronda = new Ronda(jugadores);
-//            ronda.jugar();
-//            System.out.println("Desea jugar otra ronda? (S/N)");
-//            continuar = scanner.next();
-//        }
-//
-//        System.out.println("Puntaje: ");
-//
-
-
     }
-/*
-    @Override
-    public void notificar(GameEvent e) {
-        for (Observer o : observers){
-            o.update(e);
-        }
-    }
-*/
+
 
     @Override
     public IJugador addJugador(String nombre) throws InvalidInputException, InvalidNameException, RemoteException {

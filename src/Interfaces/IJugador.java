@@ -7,16 +7,16 @@ import java.io.Serializable;
 
 public interface IJugador extends Serializable {
 
-    public boolean compararNombre(IJugador p2);
+    boolean compararNombre(IJugador p2);
 
-    public String getNombre();
+    String getNombre();
 
-    public int getCantCartasEnMano();
+    int getCantCartasEnMano();
 
-    public Carta getTope();
+    Carta getTope();
 
-    public Boolean getReady();
+    Boolean getReady();
 
-    public int getCantidadCartasPozo();
+    int getCantidadCartasPozo();
 
 }

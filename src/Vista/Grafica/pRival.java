@@ -14,7 +14,7 @@ public class pRival extends JPanel {
     private IJugador jugador;
     private boolean rotar = false;
     private JButton pozo;
-    private JButton[] dorsos = new JButton[3];
+    private final JButton[] dorsos = new JButton[3];
 
     public boolean isUsado() {
         return this.usado;

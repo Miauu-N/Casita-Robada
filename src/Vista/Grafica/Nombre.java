@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Nombre implements IVentana {
-    private Controlador controlador;
     private JPanel panelPrincipal;
     private JLabel lIntroducir;
     private JButton bAceptar;
@@ -19,7 +18,6 @@ public class Nombre implements IVentana {
     private JLabel lError;
 
     public Nombre(Controlador controlador, Grafica grafica, boolean error) {
-        this.controlador = controlador;
         bAceptar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
