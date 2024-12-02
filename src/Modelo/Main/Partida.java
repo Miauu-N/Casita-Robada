@@ -179,8 +179,6 @@ public class Partida implements Observable {
 
     private void terminarTurno() {
 
-        mostrarSituacionPartida(turno); // todo: sacar
-
         if (!tienenCartas()) {
             if (mazo.cantCartas() > jugadores.size() * 3){
                 repartir();
@@ -258,20 +256,6 @@ public class Partida implements Observable {
         terminarTurno();
     }
 
-    private void mostrarSituacionPartida(Jugador j) {
-        System.out.println("Turno de " + j.getNombre() + "!!");
-
-        System.out.println("Mano: ");
-        j.mostrarCartas();
-        System.out.println();
-
-        System.out.println("Mesa: ");
-        System.out.println(mesa.getCartas());
-
-        System.out.println("Pozos: ");
-        Utils.mostrarTopes(jugadores);
-        System.out.println();
-    }
 
 
     /**

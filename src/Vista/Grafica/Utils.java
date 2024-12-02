@@ -15,19 +15,6 @@ public class Utils {
 
     // TODO: PASAR A LA VISTA
 
-    static public void mostrarTopes(ArrayList<Jugador> jugadores){
-        for (Jugador j : jugadores){
-            System.out.println("Jugador: " + j.getNombre());
-            try {
-                System.out.println("Tope: " + j.getPozo().getTope());
-            } catch (NoCardsException e) {
-                System.out.println("Sin cartas");
-            }
-            System.out.println("Cantidad de cartas: " + j.getPozo().getCantidad());
-            System.out.println();
-        }
-    }
-
     public static JButton botonCarta(JButton boton, String string) {
         ImageIcon icon = new ImageIcon(string);
         Image image = icon.getImage().getScaledInstance(91,127,Image.SCALE_SMOOTH);

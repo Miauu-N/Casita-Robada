@@ -124,4 +124,8 @@ public class Jugador implements IJugador {
     public void reiniciarPuntos(){
         puntos = 0;
     }
+
+    public int getCantidadCartasPozo(){
+        return pozo.getCantidad();
+    }
 }

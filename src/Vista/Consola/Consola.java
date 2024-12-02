@@ -3,9 +3,12 @@ package Vista.Consola;
 import Controlador.ControladorGrafico;
 import Interfaces.IJugador;
 import Interfaces.iVista;
+import Modelo.Cartas.Carta;
 import Modelo.Exceptions.InvalidInputException;
+import Modelo.Exceptions.NoCardsException;
 import Modelo.Main.Jugador;
 import Modelo.Main.Partida;
+import Vista.Grafica.Utils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,6 +26,8 @@ public class Consola extends JFrame implements iVista {
     private boolean activo = true;
     private Esperando esperando;
     private boolean ready = false;
+
+    //todo el listo esta medio rarito
 
     public Consola(Partida partida) {
         this.controlador = new ControladorGrafico(partida,this);
@@ -153,6 +158,7 @@ public class Consola extends JFrame implements iVista {
     @Override
     public void mostrarPartida() {
         // todo preguntar que pasa aca porque yo no pondria nada o podria poner la situacion de partida
+        mostrarSituacionPartida(controlador.pedirJugadores());
     }
 
     @Override
@@ -232,6 +238,34 @@ public class Consola extends JFrame implements iVista {
     }
 
     private void mostrarSituacionPartida(ArrayList<IJugador> jugadores) {
+        aJuego.setText("");
+        IJugador nombre = controlador.getJugador();
 
+        aJuego.append("\nTu mano: ");
+        mostrarCartas(controlador.pedirCartasJugador(nombre.getNombre()));
+
+        aJuego.append("\nMesa: ");
+        mostrarCartas(controlador.pedirCartasMesa());
+
+        aJuego.append("\nPozos: ");
+        mostrarPozos(jugadores);
+    }
+
+    private void mostrarPozos(ArrayList<IJugador> jugadores) {
+        for (IJugador j : jugadores){
+            aJuego.append("\nJugador: " + j.getNombre());
+            try {
+                aJuego.append("\nTope: " + j.getTope().toString());
+            } catch (Exception e) {
+                aJuego.append("\nSin cartas");
+            }
+            aJuego.append("\nCantidad de cartas: " + j.getCantidadCartasPozo());
+        }
+    }
+
+    private void mostrarCartas(ArrayList<Carta> cartas) {
+        for (Carta c : cartas){
+            aJuego.append("\n" + c.toString());
+        }
     }
 }

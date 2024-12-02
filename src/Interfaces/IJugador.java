@@ -15,5 +15,6 @@ public interface IJugador {
 
     public Boolean getReady();
 
+    public int getCantidadCartasPozo();
 
 }
