@@ -40,8 +40,6 @@ public class VentanaPrincipal implements IVentana {
             }
         });
 
-        GridBagLayout ly = (GridBagLayout) pJugadoresListos.getLayout();
-
         salir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

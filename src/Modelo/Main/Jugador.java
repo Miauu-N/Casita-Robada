@@ -2,17 +2,12 @@ package Modelo.Main;
 
 import Interfaces.IJugador;
 import Modelo.Cartas.*;
-import Modelo.Cartas.Carta;
-import Modelo.Cartas.Mazo;
-import Modelo.Cartas.Pozo;
 import Modelo.Exceptions.NoCardsException;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Jugador  implements IJugador{
     private final String nombre;
-    private Mazo mazo;
     private final Pozo pozo;
     private int puntos;
     private final ArrayList<Carta> mano;
@@ -32,18 +27,9 @@ public class Jugador  implements IJugador{
 
     public Jugador(String nombre) {
         this.nombre = nombre;
-        this.mazo = null;
         this.pozo = new Pozo();
         this.puntos = 0;
         this.mano = new ArrayList<>();
-    }
-
-    public void darMazo(Mazo mazo){
-        this.mazo = mazo;
-    }
-
-    public void quitarMazo(){
-        this.mazo = null;
     }
 
     public String getNombre() {
@@ -84,12 +70,6 @@ public class Jugador  implements IJugador{
 
     public void darCarta(Carta carta){
         this.mano.add(carta);
-    }
-
-    public void mostrarCartas(){
-        for (Carta c : mano){
-            System.out.println(c);
-        }
     }
 
     /**

@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 
 import Controlador.Controlador;
 import Interfaces.iVista;
+import Vista.Consola.Consola;
 import Vista.Grafica.Grafica;
 import ar.edu.unlu.rmimvc.RMIMVCException;
 import ar.edu.unlu.rmimvc.Util;
@@ -47,14 +48,12 @@ public class AppCliente {
                 null,
                 8888
         );
-        iVista vista = new Grafica();
+        iVista vista = new Consola();
         Controlador controlador = vista.getControlador();
         Cliente c = new Cliente(ip, Integer.parseInt(port), ipServidor, Integer.parseInt(portServidor));
         try {
             c.iniciar(controlador);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        } catch (RMIMVCException e) {
+        } catch (RemoteException | RMIMVCException e) {
             e.printStackTrace();
         }
     }

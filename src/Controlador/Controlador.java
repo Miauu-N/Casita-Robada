@@ -1,7 +1,6 @@
 package Controlador;
 
 import Interfaces.IJugador;
-import Interfaces.Observer;
 import Interfaces.iVista;
 import Modelo.Cartas.Carta;
 import Modelo.Events.EventType;
@@ -9,7 +8,6 @@ import Modelo.Exceptions.InvalidInputException;
 import Modelo.Events.GameEvent;
 import Modelo.Exceptions.InvalidNameException;
 import Modelo.Main.IModelo;
-import Modelo.Main.Partida;
 import ar.edu.unlu.rmimvc.cliente.IControladorRemoto;
 import ar.edu.unlu.rmimvc.observer.IObservableRemoto;
 

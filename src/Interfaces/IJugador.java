@@ -1,7 +1,6 @@
 package Interfaces;
 
 import Modelo.Cartas.Carta;
-import Modelo.Main.Jugador;
 
 import java.io.Serializable;
 

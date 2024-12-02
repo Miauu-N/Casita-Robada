@@ -26,7 +26,6 @@ public class Grafica implements iVista {
         return this.controlador;
     }
 
-    @Override
     public void menuNombre() {
         menuNombre(false);
     }
@@ -52,13 +51,11 @@ public class Grafica implements iVista {
 
     }
 
-    @Override
     public void reglas(){
         IVentana menu = new Reglas(this);
         crearVentana(menu);
     }
 
-    @Override
     public void mostrarMenuPrincipal() {
         VentanaPrincipal contenido;
         if (this.menu == null) {

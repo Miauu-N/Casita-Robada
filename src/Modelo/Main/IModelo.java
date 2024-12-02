@@ -1,6 +1,5 @@
 package Modelo.Main;
 
-import Controlador.Controlador;
 import Interfaces.IJugador;
 import Modelo.Cartas.Carta;
 import Modelo.Exceptions.InvalidInputException;
@@ -13,19 +12,13 @@ import java.util.ArrayList;
 public interface IModelo extends IObservableRemoto {
     IJugador addJugador(String nombre) throws InvalidInputException, InvalidNameException, RemoteException;
 
-    void empezarJuego() throws RemoteException;
-
     void modoParejas(boolean equipos) throws RemoteException;
 
     void armarEquipos(String elegido) throws InvalidInputException, RemoteException;
 
     void soplar(int indice1, int indice2) throws RemoteException;
 
-    void ligarPozo(int carta, Jugador target) throws RemoteException;
-
     void ligarPozo(int carta, String jugador) throws RemoteException;
-
-    void respuestaPreguntarNuevaRonda(boolean x) throws RemoteException;
 
     void dejarCarta(int select) throws RemoteException;
 

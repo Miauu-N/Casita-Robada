@@ -5,13 +5,8 @@ import Controlador.Controlador;
 import java.util.ArrayList;
 
 public interface iVista {
-    void menuNombre();
 
     void menuNombre(boolean error);
-
-    void reglas();
-
-    void mostrarMenuPrincipal();
 
     void mostrarPartida();
 

@@ -27,10 +27,6 @@ public class Mesa {
         return cartas.remove(seleccionada);
     }
 
-    public int cantCartas() {
-        return cartas.size();
-    }
-
     public boolean tiene(Carta carta) {
         for (Carta c : cartas){
             if (c.equals(carta)){

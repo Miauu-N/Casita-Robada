@@ -5,8 +5,6 @@ import Interfaces.IJugador;
 import javax.swing.*;
 
 import java.awt.*;
-import java.nio.file.FileAlreadyExistsException;
-import java.util.ArrayList;
 
 import static Vista.Grafica.Utils.*;
 

@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Reglas implements Interfaces.IVentana {
-    private Grafica grafica;
     private JPanel panel1;
     private JPanel Top;
     private JPanel Mid;

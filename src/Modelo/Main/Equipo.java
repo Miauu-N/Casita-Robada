@@ -15,14 +15,6 @@ public class Equipo {
         this.puntos = 0;
     }
 
-    public ArrayList<Jugador> getJugadores() {
-        return this.jugadores;
-    }
-
-    public String getNombre() {
-        return this.nombre;
-    }
-
     public int sumarPuntos(){
         int resultado = 0;
         for (Jugador j : jugadores){
@@ -40,10 +32,7 @@ public class Equipo {
     }
 
     public ArrayList<IJugador> getJugadoresEncapsulados() {
-        ArrayList<IJugador> resultado = new ArrayList<>();
-        for (Jugador j : jugadores){
-            resultado.add((IJugador) j);
-        }
+        ArrayList<IJugador> resultado = new ArrayList<>(jugadores);
         return resultado;
     }
 }

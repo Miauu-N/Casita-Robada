@@ -2,7 +2,6 @@ package Vista.Grafica;
 
 import Interfaces.IJugador;
 import Interfaces.IVentana;
-import Modelo.Main.Jugador;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,16 +1,12 @@
 package Modelo.Main;
 
 import Interfaces.IJugador;
-import Interfaces.Observable;
-import Interfaces.Observer;
 import Modelo.Cartas.Carta;
 import Modelo.Cartas.Mazo;
 import Modelo.Events.EventType;
 import Modelo.Events.GameEvent;
 import Modelo.Exceptions.InvalidInputException;
 import Modelo.Exceptions.InvalidNameException;
-import Modelo.Exceptions.TipoInputInvalido;
-import Vista.Grafica.Utils;
 import ar.edu.unlu.rmimvc.observer.ObservableRemoto;
 
 import java.rmi.RemoteException;
@@ -43,7 +39,7 @@ public class Partida extends ObservableRemoto implements IModelo {
     @Override
     public IJugador addJugador(String nombre) throws InvalidInputException, InvalidNameException, RemoteException {
         if (jugadores.size() >= 4){
-            throw new InvalidInputException(TipoInputInvalido.salaLlena);
+            throw new InvalidInputException();
         }
         if (partidaEmpezada){
             throw new InvalidNameException();
@@ -59,11 +55,10 @@ public class Partida extends ObservableRemoto implements IModelo {
         Jugador r = new Jugador(nombre);
         jugadores.add(r);
         notificarObservadores(new GameEvent(EventType.jugadorListo,getIJugadores()));
-        return (IJugador) r;
+        return r;
     }
 
-    @Override
-    public void empezarJuego() throws RemoteException {
+    private void empezarJuego() throws RemoteException {
         partidaEmpezada = true;
         this.host = jugadores.getFirst();
         notificarObservadores(new GameEvent(EventType.todosListos, this.host));
@@ -84,7 +79,7 @@ public class Partida extends ObservableRemoto implements IModelo {
     @Override
     public void armarEquipos(String elegido) throws InvalidInputException, RemoteException {
         if (buscarJugador(elegido) == null){
-            throw new InvalidInputException(TipoInputInvalido.nombreInvalido);
+            throw new InvalidInputException();
         }
         ArrayList<Jugador> equipo1 = new ArrayList<>();
         ArrayList<Jugador> equipo2 = new ArrayList<>();
@@ -122,7 +117,6 @@ public class Partida extends ObservableRemoto implements IModelo {
         }
     }
 
-    @Override
     public void ligarPozo(int carta, Jugador target) throws RemoteException {
         Carta select = turno.getCarta(carta);
         if (select.equals(target.getTope()) && !mesa.tiene(select)){
@@ -141,6 +135,7 @@ public class Partida extends ObservableRemoto implements IModelo {
     @Override
     public void ligarPozo(int carta, String jugador) throws RemoteException {
         Jugador j = buscarJugador(jugador);
+        assert j != null;
         ligarPozo(carta,j);
     }
 
@@ -160,7 +155,7 @@ public class Partida extends ObservableRemoto implements IModelo {
                 repartir();
                 pasarTurno();
                 notificarObservadores(new GameEvent(EventType.actualizacionDeCartas,getIJugadores()));
-                notificarObservadores(new GameEvent(EventType.AsignarTurno,(IJugador) turno));
+                notificarObservadores(new GameEvent(EventType.AsignarTurno, turno));
             }
             else {
                 terminarPartida();
@@ -169,7 +164,7 @@ public class Partida extends ObservableRemoto implements IModelo {
         else {
             pasarTurno();
             notificarObservadores(new GameEvent(EventType.actualizacionDeCartas,getIJugadores()));
-            notificarObservadores(new GameEvent(EventType.AsignarTurno,(IJugador) turno));
+            notificarObservadores(new GameEvent(EventType.AsignarTurno, turno));
         }
     }
 
@@ -180,19 +175,6 @@ public class Partida extends ObservableRemoto implements IModelo {
             }
         }
         return false;
-    }
-
-    @Override
-    public void respuestaPreguntarNuevaRonda(boolean x) throws RemoteException {
-        if (x) {
-            nuevaRonda();
-            pasarTurno();
-            repartir();
-            notificarObservadores(new GameEvent(EventType.actualizacionDeCartas,getIJugadores()));
-        }
-        else {
-            terminarPartida();
-        }
     }
 
     private void terminarPartida() throws RemoteException {
@@ -214,9 +196,9 @@ public class Partida extends ObservableRemoto implements IModelo {
                 if (j.getPuntos() > max){
                     max = j.getPuntos();
                     ganadores.clear();
-                    ganadores.add((IJugador)j);
+                    ganadores.add(j);
                 } else if (j.getPuntos() == max) {
-                    ganadores.add((IJugador)j);
+                    ganadores.add(j);
                 }
             }
             notificarObservadores(new GameEvent(EventType.ganador,ganadores));
@@ -258,7 +240,7 @@ public class Partida extends ObservableRemoto implements IModelo {
         nuevaRonda();
         pasarTurno();
         repartir();
-        notificarObservadores(new GameEvent(EventType.empezoElJuego,(IJugador)turno));
+        notificarObservadores(new GameEvent(EventType.empezoElJuego, turno));
     }
 
 
@@ -282,6 +264,7 @@ public class Partida extends ObservableRemoto implements IModelo {
     @Override
     public void ready(IJugador ijugador) throws RemoteException {
         Jugador jugador = buscarJugador(ijugador.getNombre());
+        assert jugador != null;
         jugador.setReady();
 
         if (jugadores.size() >= 2 && allReady() ){
@@ -305,7 +288,7 @@ public class Partida extends ObservableRemoto implements IModelo {
     public ArrayList<IJugador> getIJugadores() throws RemoteException{
         ArrayList<IJugador> resultado = new ArrayList<>();
         for (Jugador j : jugadores){
-            resultado.add((IJugador) j);
+            resultado.add(j);
         }
         return resultado;
     }

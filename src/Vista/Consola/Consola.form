@@ -62,7 +62,7 @@
                   <editable value="false"/>
                   <minimumSize width="600" height="250"/>
                   <preferredSize width="600" height="600"/>
-                  <rows value="50"/>
+                  <rows value="0"/>
                 </properties>
               </component>
             </children>

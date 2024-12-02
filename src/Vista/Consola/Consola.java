@@ -5,7 +5,6 @@ import Interfaces.IJugador;
 import Interfaces.iVista;
 import Modelo.Cartas.Carta;
 import Modelo.Exceptions.InvalidInputException;
-import Modelo.Main.Partida;
 
 import javax.swing.*;
 import java.awt.*;
@@ -193,7 +192,6 @@ public class Consola extends JFrame implements iVista {
                 """);
     }
 
-    @Override
     public void menuNombre() {
         menuNombre(false);
     }
@@ -210,7 +208,6 @@ public class Consola extends JFrame implements iVista {
         panelPrincipal.updateUI();
     }
 
-    @Override
     public void reglas() {
         aJuego.append("""
                \s
@@ -246,7 +243,6 @@ public class Consola extends JFrame implements iVista {
         panelPrincipal.updateUI();
     }
 
-    @Override
     public void mostrarMenuPrincipal() {
         aJuego.setText("""
                 Casita robada
