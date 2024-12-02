@@ -3,22 +3,32 @@ package Vista.Grafica;
 import Controlador.ControladorGrafico;
 import Interfaces.IJugador;
 import Interfaces.IVentana;
+import Interfaces.iVista;
 import Modelo.Cartas.Carta;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Grafica {
+public class Grafica implements iVista {
     private JFrame vent;
     private final ControladorGrafico controlador;
     private boolean activo = true;
     private VentanaPrincipal menu = null;
     private Vista.Grafica.Partida partida = null;
 
-    public Grafica(ControladorGrafico controladorGrafico){
-        this.controlador = controladorGrafico;
-        IVentana menu = new Nombre(controlador,this);
+    public Grafica(Modelo.Main.Partida partida){
+        this.controlador = new ControladorGrafico(partida,this);
+        menuNombre();
+    }
+
+    @Override
+    public void menuNombre() {
+        menuNombre(false);
+    }
+    @Override
+    public void menuNombre(boolean error) {
+        IVentana menu = new Nombre(controlador,this,error);
         crearVentana(menu);
     }
 
@@ -38,11 +48,13 @@ public class Grafica {
 
     }
 
+    @Override
     public void reglas(){
         IVentana menu = new Reglas(this);
         crearVentana(menu);
     }
 
+    @Override
     public void mostrarMenuPrincipal() {
         VentanaPrincipal contenido;
         if (this.menu == null) {
@@ -55,35 +67,57 @@ public class Grafica {
         crearVentana(contenido);
     }
 
+    @Override
     public void mostrarPartida(){
         Vista.Grafica.Partida partida = new Partida(this, pedirListos());
         this.partida = partida;
         crearVentana(partida);
     }
 
+    @Override
+    public void ganador(ArrayList<IJugador> ganadores) {
+        boolean gano = false;
+        for (IJugador j : ganadores){
+            if (j.compararNombre(controlador.getJugador())){
+                gano = true;
+            }
+        }
+        crearVentana(new PartidaFinalizada(this,gano ,ganadores));
+    }
+
+    @Override
     public void kill() {
         System.out.println("Cliente cerrado");
         activo = false; // TODO Preguntar si esta bien
     }
 
+    @Override
     public void preguntarParejas(){
         IVentana menu = new PreguntarParejas(controlador,this, SiONo.preguntarParejas);
         crearVentana(menu);
     }
 
+    @Override
+    public void seleccionarEquipos() {
+        IVentana menu = new ElegirEquipos(this, controlador.pedirJugadores());
+        crearVentana(menu);
+    }
+
+    @Override
     public void actualizarListos(ArrayList<IJugador> jugadores) {
         if (menu != null){
             menu.actualizarListos(jugadores);
         }
     }
 
+    @Override
     public void addtoTitle(String nombre) {
         String titulo = vent.getTitle() + " ( " + nombre + " )";
         vent.setTitle(titulo);
     }
 
     public ArrayList<IJugador> pedirListos() {
-        return controlador.pedirListos();
+        return controlador.pedirJugadores();
     }
 
     public IJugador pedirJugador() {
@@ -98,6 +132,7 @@ public class Grafica {
         return controlador.pedirCartasJugador(nombre);
     }
 
+    @Override
     public void asignarTurno() {
         partida.asignarTurno();
     }
@@ -106,6 +141,7 @@ public class Grafica {
         controlador.robarPozo(jugador,selected);
     }
 
+    @Override
     public void actualizarCartas(ArrayList<IJugador> jugadores) {
         partida.actualizarCartas(jugadores);
     }
@@ -121,4 +157,13 @@ public class Grafica {
     public void dejarCarta(int selected) {
         controlador.dejarCarta(selected);
     }
+
+    public void elegirEquipo(IJugador jugador) {
+        try {
+            controlador.elegirEquipo(jugador.getNombre());
+        } catch (Exception e) {
+            throw new RuntimeException("Error al seleccionar equipo");
+        }
+    }
+
 }

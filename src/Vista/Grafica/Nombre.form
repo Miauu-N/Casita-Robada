@@ -77,6 +77,15 @@
                           <text value="Aceptar"/>
                         </properties>
                       </component>
+                      <component id="ad750" class="javax.swing.JLabel" binding="lError">
+                        <constraints border-constraint="South"/>
+                        <properties>
+                          <enabled value="false"/>
+                          <foreground color="-8253179"/>
+                          <text value="Nombre invalido, intente con otro."/>
+                          <visible value="false"/>
+                        </properties>
+                      </component>
                     </children>
                   </grid>
                 </children>

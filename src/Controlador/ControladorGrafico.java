@@ -2,10 +2,12 @@ package Controlador;
 
 import Interfaces.IJugador;
 import Interfaces.Observer;
+import Interfaces.iVista;
 import Modelo.Cartas.Carta;
 import Modelo.Events.EventType;
 import Modelo.Exceptions.InvalidInputException;
 import Modelo.Events.GameEvent;
+import Modelo.Exceptions.InvalidNameException;
 import Modelo.Main.Partida;
 import Vista.Grafica.Grafica;
 
@@ -13,7 +15,7 @@ import java.util.ArrayList;
 
 public class ControladorGrafico implements Observer {
 
-    private Grafica grafica;
+    private iVista grafica;
 
     private Partida partida;
 
@@ -23,19 +25,24 @@ public class ControladorGrafico implements Observer {
     public IJugador getJugador() {
         return this.jugador;
     }
-    public ControladorGrafico(Partida partida) {
-        grafica = new Grafica(this);
+    public ControladorGrafico(Partida partida,iVista grafica) {
+        this.grafica =grafica;
         this.partida = partida;
         this.partida.addObserver(this);
     }
 
-    public void addJugador(String nombre) {
+    public boolean addJugador(String nombre) {
         try {
             this.jugador = partida.addJugador(nombre);
             this.grafica.addtoTitle(jugador.getNombre());
+            return true;
         } catch (InvalidInputException e) {
             partida.removeObserver(this);
             grafica.kill();
+            return false;
+        } catch (InvalidNameException e) {
+            grafica.menuNombre(true);
+            return false;
         }
     }
 
@@ -44,9 +51,16 @@ public class ControladorGrafico implements Observer {
         switch (e.getTipo()){
 
             case EventType.todosListos -> {
-                grafica.preguntarParejas();
+                if ( ((IJugador) e.getContenido()).compararNombre(jugador) ) {
+                    if (partida.canParejas()){
+                        grafica.preguntarParejas();
+                    }
+                    else {
+                        partida.modoParejas(false);
+                    }
+                }
             }
-            case updateCartas -> {
+            case actualizacionDeCartas -> {
                 ArrayList<IJugador> jugadores = (ArrayList<IJugador>) e.getContenido();
                 grafica.actualizarCartas(jugadores);
             }
@@ -59,8 +73,6 @@ public class ControladorGrafico implements Observer {
                 }
             }
 
-            case rondaTerminada -> {}
-
             case AsignarTurno -> {
                 IJugador turno = (IJugador) e.getContenido();
                 if (jugador.compararNombre(turno)) {
@@ -72,6 +84,18 @@ public class ControladorGrafico implements Observer {
                 ArrayList<IJugador> jugadores = (ArrayList<IJugador>) e.getContenido();
                 grafica.actualizarListos(jugadores);
             }
+
+            case seleccionDeEquipos -> {
+                if ( ((IJugador) e.getContenido()).compararNombre(jugador) ) {
+                    grafica.seleccionarEquipos();
+                }
+            }
+
+            case ganador -> {
+                grafica.ganador((ArrayList<IJugador>) e.getContenido());
+            }
+
+
 //            case null, default -> {
 //                System.out.println("Evento invalido");
 //            }
@@ -83,10 +107,10 @@ public class ControladorGrafico implements Observer {
     }
 
     public void responderParejas(boolean b) {
-        partida.respuestaParejas(b);
+        partida.modoParejas(b);
     }
 
-    public ArrayList<IJugador> pedirListos() {
+    public ArrayList<IJugador> pedirJugadores() {
         return partida.getIJugadores();
     }
 
@@ -112,5 +136,9 @@ public class ControladorGrafico implements Observer {
 
     public void dejarCarta(int selected) {
         partida.dejarCarta(selected);
+    }
+
+    public void elegirEquipo(String jugador) throws InvalidInputException{
+        partida.armarEquipos(jugador);
     }
 }

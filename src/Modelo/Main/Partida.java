@@ -8,6 +8,7 @@ import Modelo.Cartas.Mazo;
 import Modelo.Events.EventType;
 import Modelo.Events.GameEvent;
 import Modelo.Exceptions.InvalidInputException;
+import Modelo.Exceptions.InvalidNameException;
 import Modelo.Exceptions.TipoInputInvalido;
 import Vista.Grafica.Utils;
 
@@ -29,11 +30,13 @@ public class Partida implements Observable {
 
     private Mazo mazo;
     private ArrayList<Equipo> equipos;
+    private IJugador host;
 
 
     public Partida(){
         observers = new ArrayList<>();
         this.jugadores = new ArrayList<>();
+        this.equipos = new ArrayList<>();
 
 //        System.out.println("Desea jugar otra ronda? (S/N)");
 //        String continuar = scanner.next();
@@ -68,12 +71,20 @@ public class Partida implements Observable {
         observers.remove(observer);
     }
 
-    public IJugador addJugador(String nombre) throws InvalidInputException {
+    public IJugador addJugador(String nombre) throws InvalidInputException, InvalidNameException {
         if (jugadores.size() >= 4){
             throw new InvalidInputException(TipoInputInvalido.salaLlena);
         }
         if (partidaEmpezada){
-            throw new InvalidInputException(TipoInputInvalido.partidaComenzada);
+            throw new InvalidNameException();
+        }
+        if (nombre.isEmpty() || nombre.isBlank()){
+            throw new InvalidNameException();
+        }
+        for (Jugador j : jugadores){
+            if (j.compararNombre(nombre)){
+                throw new InvalidNameException();
+            }
         }
         Jugador r = new Jugador(nombre);
         jugadores.add(r);
@@ -83,18 +94,13 @@ public class Partida implements Observable {
 
     public void empezarJuego() {
         partidaEmpezada = true;
-        if (jugadores.size() == 5 ){ // todo cambiar para que lo compruebe el controlador
-            notificar(new GameEvent(EventType.todosListos));
-        }
-        else{
-            parejas = false;
-            empezarPartida();
-        }
+        this.host = jugadores.getFirst();
+        notificar(new GameEvent(EventType.todosListos, this.host));
     }
 
-    public void respuestaParejas(boolean equipos){
+    public void modoParejas(boolean equipos){
         if (equipos){
-            notificar(new GameEvent(EventType.seleccionDeEquipos,getIJugadores()));
+            notificar(new GameEvent(EventType.seleccionDeEquipos,host));
             parejas = true;
         }
         else{
@@ -103,14 +109,26 @@ public class Partida implements Observable {
         }
     }
 
-    public void armarEquipos(String[] jugadores){
-        for (int i = 0; i<2 ; i++){
-            ArrayList<Jugador> equipo = new ArrayList<>();
-            equipo.add(buscarJugador(jugadores[i * 2]));
-            equipo.add(buscarJugador(jugadores[i * 2 +1]));
-            Equipo team = new Equipo(equipo,i + "");
-            this.equipos.add(team);
+    public void armarEquipos(String elegido) throws InvalidInputException {
+        if (buscarJugador(elegido) == null){
+            throw new InvalidInputException(TipoInputInvalido.nombreInvalido);
         }
+        ArrayList<Jugador> equipo1 = new ArrayList<>();
+        ArrayList<Jugador> equipo2 = new ArrayList<>();
+
+        for (Jugador j : jugadores){
+            if (j.compararNombre(host) || j.compararNombre(elegido)){
+                equipo1.add(j);
+            }
+            else {
+                equipo2.add(j);
+            }
+        }
+        Equipo team1 = new Equipo(equipo1,1 + "");
+        this.equipos.add(team1);
+        Equipo team2 = new Equipo(equipo2,2 + "");
+        this.equipos.add(team2);
+        empezarPartida();
     }
 
     public void soplar(int indice1,int indice2){
@@ -122,7 +140,7 @@ public class Partida implements Observable {
             }
             turno.getPozo().agregarCarta(mesa.tomarCarta(indice1));
             turno.getPozo().agregarCarta(mesa.tomarCarta(indice2));
-            notificar(new GameEvent(EventType.updateCartas,getIJugadores()));
+            notificar(new GameEvent(EventType.actualizacionDeCartas,getIJugadores()));
         }
         else {
             System.out.println("Jugada incorrecta");
@@ -156,7 +174,7 @@ public class Partida implements Observable {
                 return j;
             }
         }
-        throw new RuntimeException("Jugador no encontrado");
+        return null;
     }
 
     private void terminarTurno() {
@@ -167,16 +185,16 @@ public class Partida implements Observable {
             if (mazo.cantCartas() > jugadores.size() * 3){
                 repartir();
                 pasarTurno();
-                notificar(new GameEvent(EventType.updateCartas,getIJugadores()));
+                notificar(new GameEvent(EventType.actualizacionDeCartas,getIJugadores()));
                 notificar(new GameEvent(EventType.AsignarTurno,(IJugador) turno));
             }
             else {
-                notificar(new GameEvent(EventType.rondaTerminada));
+                terminarPartida();
             }
         }
         else {
             pasarTurno();
-            notificar(new GameEvent(EventType.updateCartas,getIJugadores()));
+            notificar(new GameEvent(EventType.actualizacionDeCartas,getIJugadores()));
             notificar(new GameEvent(EventType.AsignarTurno,(IJugador) turno));
         }
     }
@@ -195,7 +213,7 @@ public class Partida implements Observable {
             nuevaRonda();
             pasarTurno();
             repartir();
-            notificar(new GameEvent(EventType.updateCartas,getIJugadores()));
+            notificar(new GameEvent(EventType.actualizacionDeCartas,getIJugadores()));
         }
         else {
             terminarPartida();
@@ -207,8 +225,11 @@ public class Partida implements Observable {
             if(equipos.get(0).sumarPuntos() > equipos.get(1).sumarPuntos()){
                 notificar(new GameEvent(EventType.ganador,equipos.get(0).getJugadoresEncapsulados()));
             }
-            else if(equipos.get(0).sumarPuntos() > equipos.get(1).sumarPuntos()){
+            else if(equipos.get(0).sumarPuntos() < equipos.get(1).sumarPuntos()){
                 notificar(new GameEvent(EventType.ganador,equipos.get(1).getJugadoresEncapsulados()));
+            }
+            else {
+                notificar(new GameEvent(EventType.ganador,getIJugadores()));
             }
         }
         else {
@@ -358,5 +379,9 @@ public class Partida implements Observable {
             dejarCarta(select);
         }
 
+    }
+
+    public boolean canParejas() {
+        return jugadores.size() > 2 && jugadores.size() % 2 == 0;
     }
 }

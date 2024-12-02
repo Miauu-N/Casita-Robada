@@ -16,8 +16,9 @@ public class Nombre implements IVentana {
     private JPanel pBoton;
     private JPanel pNombreAceptar;
     private JTextField textField1;
+    private JLabel lError;
 
-    public Nombre(ControladorGrafico controladorGrafico,Grafica grafica) {
+    public Nombre(ControladorGrafico controladorGrafico, Grafica grafica, boolean error) {
         this.controlador = controladorGrafico;
         bAceptar.addActionListener(new ActionListener() {
             @Override
@@ -25,13 +26,16 @@ public class Nombre implements IVentana {
                 String name = textField1.getText();
 
                 if (!name.isEmpty()) {
-                    controladorGrafico.addJugador(name);
 
-                    grafica.mostrarMenuPrincipal();
+
+                    if (controladorGrafico.addJugador(name)) {
+                        grafica.mostrarMenuPrincipal();
+                    }
                 }
 
             }
         });
+        lError.setVisible(error);
     }
 
     public Container getPanel() {

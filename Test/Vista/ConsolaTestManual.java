@@ -1,8 +1,10 @@
 package Vista;
 
+import Vista.Consola.Texto;
+
 public class ConsolaTestManual {
     public static void main(String[] args) {
-        Consola c = new Consola();
+        Texto c = new Texto();
         c.play();
     }
 }

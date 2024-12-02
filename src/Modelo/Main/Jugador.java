@@ -69,6 +69,8 @@ public class Jugador implements IJugador {
     }
 
     public int getPuntos() {
+        puntos += pozo.getCantidad();
+        pozo.limpiarCartas();
         return puntos;
     }
 
@@ -108,10 +110,10 @@ public class Jugador implements IJugador {
 
     @Override
     public boolean compararNombre(IJugador p2) {
-        return this.nombre.equals(p2.getNombre());
+        return this.nombre.equalsIgnoreCase(p2.getNombre());
     }
     public boolean compararNombre(String p2) {
-        return this.nombre.equals(p2);
+        return this.nombre.equalsIgnoreCase(p2);
     }
 
     public void limpiarCartas() {

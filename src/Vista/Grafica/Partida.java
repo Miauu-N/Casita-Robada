@@ -27,14 +27,14 @@ public class Partida implements IVentana {
     private JPanel pMano;
     private final IJugador nombreJugador;
     private final ArrayList<JButton> botonesJugadas;
-    private ArrayList<JButton> botonesMesa;
     private int selected;
     private boolean soplar = false;
+    private ArrayList<JButton> cartasMesa;
 
     public Partida(Grafica grafica, ArrayList<IJugador> jugadors) {
         this.botonesJugadas = new ArrayList<>();
         this.botonesMano = new ArrayList<>();
-        this.botonesMesa = new ArrayList<>();
+        this.cartasMesa = new ArrayList<>();
         this.grafica = grafica;
 
         IJugador jugador = grafica.pedirJugador();
@@ -134,6 +134,7 @@ public class Partida implements IVentana {
             });
             cartaMesa.setEnabled(false);
             pMesa.add(cartaMesa);
+            cartasMesa.add(cartaMesa);
             botonesJugadas.add(cartaMesa);
             i++;
         }
@@ -197,20 +198,15 @@ public class Partida implements IVentana {
         for (JButton b : botonesMano){
             b.setEnabled(mano);
         }
-        for (Component c : pMesa.getComponents()){
-            c.setEnabled(mano);
+        for (JButton b : cartasMesa){
+            b.setEnabled(mano);
         }
         if (activarJugadas) {
             activarJugadas(true);
         }
     }
     private void activarMano(Boolean mano) {
-        for (JButton b : botonesMano){
-            b.setEnabled(mano);
-        }
-        for (Component c : pMesa.getComponents()){
-            c.setEnabled(mano);
-        }
+        activarMano(mano,false);
     }
 
     private void activarJugadas(boolean x) {
