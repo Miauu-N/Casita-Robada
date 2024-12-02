@@ -25,8 +25,8 @@ public class Consola extends JFrame implements iVista {
 
     //todo el listo esta medio rarito
 
-    public Consola(Partida partida) {
-        this.controlador = new Controlador(partida,this);
+    public Consola() {
+        this.controlador = new Controlador(this);
 
         setTitle("Casita Robada");
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -380,5 +380,9 @@ public class Consola extends JFrame implements iVista {
         for (int i = 0 ; i< cartas.size() ; i++){
             aJuego.append("\n   " + i + "_ " + cartas.get(i).toString());
         }
+    }
+
+    public Controlador getControlador() {
+        return this.controlador;
     }
 }

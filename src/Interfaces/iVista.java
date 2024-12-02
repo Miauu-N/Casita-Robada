@@ -1,5 +1,7 @@
 package Interfaces;
 
+import Controlador.Controlador;
+
 import java.util.ArrayList;
 
 public interface iVista {
@@ -28,4 +30,6 @@ public interface iVista {
     void asignarTurno();
 
     void actualizarCartas(ArrayList<IJugador> jugadores);
+
+    Controlador getControlador();
 }

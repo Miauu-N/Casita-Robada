@@ -2,9 +2,10 @@ package Modelo.Cartas;
 
 import Modelo.Exceptions.NoCardsException;
 
+import java.io.Serializable;
 import java.util.Stack;
 
-public class Pozo {
+public class Pozo implements Serializable {
     private Stack<Carta> pozo;
     int cantidad;
 

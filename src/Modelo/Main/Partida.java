@@ -13,9 +13,10 @@ import Modelo.Exceptions.TipoInputInvalido;
 import Vista.Grafica.Utils;
 import ar.edu.unlu.rmimvc.observer.ObservableRemoto;
 
+import java.rmi.RemoteException;
 import java.util.*;
 
-public class Partida extends ObservableRemoto implements Observable {
+public class Partida extends ObservableRemoto implements IModelo {
 
     private ArrayList<Jugador> jugadores;
 
@@ -60,7 +61,8 @@ public class Partida extends ObservableRemoto implements Observable {
     }
 */
 
-    public IJugador addJugador(String nombre) throws InvalidInputException, InvalidNameException {
+    @Override
+    public IJugador addJugador(String nombre) throws InvalidInputException, InvalidNameException, RemoteException {
         if (jugadores.size() >= 4){
             throw new InvalidInputException(TipoInputInvalido.salaLlena);
         }
@@ -77,19 +79,21 @@ public class Partida extends ObservableRemoto implements Observable {
         }
         Jugador r = new Jugador(nombre);
         jugadores.add(r);
-        notificar(new GameEvent(EventType.jugadorListo,getIJugadores()));
+        notificarObservadores(new GameEvent(EventType.jugadorListo,getIJugadores()));
         return (IJugador) r;
     }
 
-    public void empezarJuego() {
+    @Override
+    public void empezarJuego() throws RemoteException {
         partidaEmpezada = true;
         this.host = jugadores.getFirst();
-        notificar(new GameEvent(EventType.todosListos, this.host));
+        notificarObservadores(new GameEvent(EventType.todosListos, this.host));
     }
 
-    public void modoParejas(boolean equipos){
+    @Override
+    public void modoParejas(boolean equipos) throws RemoteException {
         if (equipos){
-            notificar(new GameEvent(EventType.seleccionDeEquipos,host));
+            notificarObservadores(new GameEvent(EventType.seleccionDeEquipos,host));
             parejas = true;
         }
         else{
@@ -98,7 +102,8 @@ public class Partida extends ObservableRemoto implements Observable {
         }
     }
 
-    public void armarEquipos(String elegido) throws InvalidInputException {
+    @Override
+    public void armarEquipos(String elegido) throws InvalidInputException, RemoteException {
         if (buscarJugador(elegido) == null){
             throw new InvalidInputException(TipoInputInvalido.nombreInvalido);
         }
@@ -120,7 +125,8 @@ public class Partida extends ObservableRemoto implements Observable {
         empezarPartida();
     }
 
-    public void soplar(int indice1,int indice2){
+    @Override
+    public void soplar(int indice1, int indice2) throws RemoteException {
         if (indice1 != indice2 && mesa.verCarta(indice1).equals(mesa.verCarta(indice2))){
             if (indice1 < indice2){
                 int aux = indice2;
@@ -129,7 +135,7 @@ public class Partida extends ObservableRemoto implements Observable {
             }
             turno.getPozo().agregarCarta(mesa.tomarCarta(indice1));
             turno.getPozo().agregarCarta(mesa.tomarCarta(indice2));
-            notificar(new GameEvent(EventType.actualizacionDeCartas,getIJugadores()));
+            notificarObservadores(new GameEvent(EventType.actualizacionDeCartas,getIJugadores()));
         }
         else {
             System.out.println("Jugada incorrecta");
@@ -137,7 +143,8 @@ public class Partida extends ObservableRemoto implements Observable {
         }
     }
 
-    public void ligarPozo(int carta,Jugador target){
+    @Override
+    public void ligarPozo(int carta, Jugador target) throws RemoteException {
         Carta select = turno.getCarta(carta);
         if (select.equals(target.getTope()) && !mesa.tiene(select)){
             target.getPozo().agregarCarta(select);
@@ -152,7 +159,8 @@ public class Partida extends ObservableRemoto implements Observable {
         }
     }
 
-    public void ligarPozo(int carta,String jugador){
+    @Override
+    public void ligarPozo(int carta, String jugador) throws RemoteException {
         Jugador j = buscarJugador(jugador);
         ligarPozo(carta,j);
     }
@@ -166,14 +174,14 @@ public class Partida extends ObservableRemoto implements Observable {
         return null;
     }
 
-    private void terminarTurno() {
+    private void terminarTurno() throws RemoteException {
 
         if (!tienenCartas()) {
             if (mazo.cantCartas() > jugadores.size() * 3){
                 repartir();
                 pasarTurno();
-                notificar(new GameEvent(EventType.actualizacionDeCartas,getIJugadores()));
-                notificar(new GameEvent(EventType.AsignarTurno,(IJugador) turno));
+                notificarObservadores(new GameEvent(EventType.actualizacionDeCartas,getIJugadores()));
+                notificarObservadores(new GameEvent(EventType.AsignarTurno,(IJugador) turno));
             }
             else {
                 terminarPartida();
@@ -181,8 +189,8 @@ public class Partida extends ObservableRemoto implements Observable {
         }
         else {
             pasarTurno();
-            notificar(new GameEvent(EventType.actualizacionDeCartas,getIJugadores()));
-            notificar(new GameEvent(EventType.AsignarTurno,(IJugador) turno));
+            notificarObservadores(new GameEvent(EventType.actualizacionDeCartas,getIJugadores()));
+            notificarObservadores(new GameEvent(EventType.AsignarTurno,(IJugador) turno));
         }
     }
 
@@ -195,28 +203,29 @@ public class Partida extends ObservableRemoto implements Observable {
         return false;
     }
 
-    public void respuestaPreguntarNuevaRonda(boolean x){
+    @Override
+    public void respuestaPreguntarNuevaRonda(boolean x) throws RemoteException {
         if (x) {
             nuevaRonda();
             pasarTurno();
             repartir();
-            notificar(new GameEvent(EventType.actualizacionDeCartas,getIJugadores()));
+            notificarObservadores(new GameEvent(EventType.actualizacionDeCartas,getIJugadores()));
         }
         else {
             terminarPartida();
         }
     }
 
-    private void terminarPartida() {
+    private void terminarPartida() throws RemoteException {
         if (parejas){
             if(equipos.get(0).sumarPuntos() > equipos.get(1).sumarPuntos()){
-                notificar(new GameEvent(EventType.ganador,equipos.get(0).getJugadoresEncapsulados()));
+                notificarObservadores(new GameEvent(EventType.ganador,equipos.get(0).getJugadoresEncapsulados()));
             }
             else if(equipos.get(0).sumarPuntos() < equipos.get(1).sumarPuntos()){
-                notificar(new GameEvent(EventType.ganador,equipos.get(1).getJugadoresEncapsulados()));
+                notificarObservadores(new GameEvent(EventType.ganador,equipos.get(1).getJugadoresEncapsulados()));
             }
             else {
-                notificar(new GameEvent(EventType.ganador,getIJugadores()));
+                notificarObservadores(new GameEvent(EventType.ganador,getIJugadores()));
             }
         }
         else {
@@ -231,16 +240,16 @@ public class Partida extends ObservableRemoto implements Observable {
                     ganadores.add((IJugador)j);
                 }
             }
-            notificar(new GameEvent(EventType.ganador,ganadores));
+            notificarObservadores(new GameEvent(EventType.ganador,ganadores));
         }
 
     }
 
-    public void dejarCarta(int select) {
-        mesa.agregarCarta(turno.getCarta(select));
-        terminarTurno();
+    @Override
+    public void dejarCarta(int select) throws RemoteException {
+        dejarCarta(turno.getCarta(select));
     }
-    private void dejarCarta(Carta select) {
+    private void dejarCarta(Carta select) throws RemoteException {
         mesa.agregarCarta(select);
         terminarTurno();
     }
@@ -265,12 +274,12 @@ public class Partida extends ObservableRemoto implements Observable {
 
 
 
-    private void empezarPartida() {
+    private void empezarPartida() throws RemoteException {
         Collections.shuffle(jugadores);
         nuevaRonda();
         pasarTurno();
         repartir();
-        notificar(new GameEvent(EventType.empezoElJuego,(IJugador)turno));
+        notificarObservadores(new GameEvent(EventType.empezoElJuego,(IJugador)turno));
     }
 
 
@@ -291,15 +300,16 @@ public class Partida extends ObservableRemoto implements Observable {
     }
 
 
-    public void ready(IJugador ijugador) {
-        Jugador jugador = (Jugador) ijugador;
+    @Override
+    public void ready(IJugador ijugador) throws RemoteException {
+        Jugador jugador = buscarJugador(ijugador.getNombre());
         jugador.setReady();
 
         if (jugadores.size() >= 2 && allReady() ){
             empezarJuego();
         }
         else {
-            notificar(new GameEvent(EventType.jugadorListo, getIJugadores()));
+            notificarObservadores(new GameEvent(EventType.jugadorListo, getIJugadores()));
         }
     }
 
@@ -312,7 +322,8 @@ public class Partida extends ObservableRemoto implements Observable {
         return true;
     }
 
-    public ArrayList<IJugador> getIJugadores(){
+    @Override
+    public ArrayList<IJugador> getIJugadores() throws RemoteException{
         ArrayList<IJugador> resultado = new ArrayList<>();
         for (Jugador j : jugadores){
             resultado.add((IJugador) j);
@@ -321,21 +332,23 @@ public class Partida extends ObservableRemoto implements Observable {
     }
 
 
-    public ArrayList<Carta> getCartasMesa() {
+    @Override
+    public ArrayList<Carta> getCartasMesa() throws RemoteException{
         return mesa.getCartas();
     }
 
-    public ArrayList<Carta> getCartasJugador(String nombre) {
+    @Override
+    public ArrayList<Carta> getCartasJugador(String nombre)  throws RemoteException{
 
-        for (Jugador j : jugadores){
-            if (j.compararNombre(nombre)){
-                return  j.getMano();
-            }
+        try {
+            return buscarJugador(nombre).getMano();
+        } catch (Exception e) {
+            throw new RuntimeException("Jugador no encontrado");
         }
-        throw new RuntimeException("no se encontro el jugador");
     }
 
-    public void ligarCarta(int cartaMesa, int mano) {
+    @Override
+    public void ligarCarta(int cartaMesa, int mano) throws RemoteException{
         try {
             Carta select = turno.getCarta(mano);
 
@@ -359,7 +372,8 @@ public class Partida extends ObservableRemoto implements Observable {
 
     }
 
-    public boolean canParejas() {
+    @Override
+    public boolean canParejas() throws RemoteException{
         return jugadores.size() > 2 && jugadores.size() % 2 == 0;
     }
 }

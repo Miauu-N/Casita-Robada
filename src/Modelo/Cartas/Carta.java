@@ -1,12 +1,13 @@
 package Modelo.Cartas;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Clase contenedora (se puede retornar sin problemas de aliasing)
  */
 
-public class Carta {
+public class Carta implements Serializable {
     private Palo palo;
     private int numero;
 

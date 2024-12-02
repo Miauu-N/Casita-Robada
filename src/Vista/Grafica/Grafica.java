@@ -17,9 +17,13 @@ public class Grafica implements iVista {
     private VentanaPrincipal menu = null;
     private Vista.Grafica.Partida partida = null;
 
-    public Grafica(Modelo.Main.Partida partida){
-        this.controlador = new Controlador(partida,this);
+    public Grafica(){
+        this.controlador = new Controlador(this);
         menuNombre();
+    }
+
+    public Controlador getControlador() {
+        return this.controlador;
     }
 
     @Override

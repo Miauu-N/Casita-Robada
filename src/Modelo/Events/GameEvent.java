@@ -1,6 +1,8 @@
 package Modelo.Events;
 
-public class GameEvent {
+import java.io.Serializable;
+
+public class GameEvent implements Serializable {
     private EventType tipo;
     private Object contenido;
 

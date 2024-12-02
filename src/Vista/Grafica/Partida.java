@@ -78,6 +78,7 @@ public class Partida implements IVentana {
 
     private void crearCartasMano() {
         pMano.removeAll();
+        botonesMano.clear();
         pMano.updateUI();
         int i;
         ArrayList<Carta> mano = grafica.pedirCartasJugador(nombreJugador.getNombre());
@@ -256,6 +257,7 @@ public class Partida implements IVentana {
         crearBotonesMesa();
         crearCartasRivales(jugadores);
         crearCartasMano();
+        panel1.updateUI();
     }
 
 }

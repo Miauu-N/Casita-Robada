@@ -8,15 +8,19 @@ import Modelo.Events.EventType;
 import Modelo.Exceptions.InvalidInputException;
 import Modelo.Events.GameEvent;
 import Modelo.Exceptions.InvalidNameException;
+import Modelo.Main.IModelo;
 import Modelo.Main.Partida;
+import ar.edu.unlu.rmimvc.cliente.IControladorRemoto;
+import ar.edu.unlu.rmimvc.observer.IObservableRemoto;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public class Controlador implements Observer {
+public class Controlador implements IControladorRemoto {
 
     private iVista grafica;
 
-    private Partida partida;
+    private IModelo partida;
 
 
     private IJugador jugador;
@@ -24,10 +28,8 @@ public class Controlador implements Observer {
     public IJugador getJugador() {
         return this.jugador;
     }
-    public Controlador(Partida partida, iVista grafica) {
+    public Controlador(iVista grafica) {
         this.grafica =grafica;
-        this.partida = partida;
-        this.partida.addObserver(this);
     }
 
     public boolean addJugador(String nombre) {
@@ -36,17 +38,115 @@ public class Controlador implements Observer {
             this.grafica.addtoTitle(jugador.getNombre());
             return true;
         } catch (InvalidInputException e) {
-            partida.removeObserver(this);
+            try {
+                partida.removerObservador(this);
+            } catch (RemoteException ex) {
+                e.printStackTrace();
+            }
             grafica.kill();
             return false;
         } catch (InvalidNameException e) {
             grafica.menuNombre(true);
             return false;
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void ready() {
+        try {
+            partida.ready(this.jugador);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (Exception x) {
+            System.out.println(x);
+        }
+    }
+
+    public void responderParejas(boolean b) {
+        try {
+            partida.modoParejas(b);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public ArrayList<IJugador> pedirJugadores() {
+        try {
+            return partida.getIJugadores();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<Carta> pedirCartasMesa() {
+        try {
+            return  partida.getCartasMesa();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<Carta> pedirCartasJugador(String nombre) {
+        try {
+            return partida.getCartasJugador(nombre);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void robarPozo(String jugador, int selected) {
+        try {
+            partida.ligarPozo(selected, jugador);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void agarrarCartaMesa(int mesa, int mano) {
+        try {
+            partida.ligarCarta(mesa,mano);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void soplar(int c1, int c2) {
+        try {
+            partida.soplar(c1,c2);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void dejarCarta(int selected) {
+        try {
+            partida.dejarCarta(selected);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void elegirEquipo(String jugador) throws InvalidInputException{
+        try {
+            partida.armarEquipos(jugador);
+        } catch (RemoteException e) {
+            e.printStackTrace();
         }
     }
 
     @Override
-    public void update(GameEvent e) {
+    public <T extends IObservableRemoto> void setModeloRemoto(T t) throws RemoteException {
+        this.partida = (IModelo) t;
+    }
+
+    @Override
+    public void actualizar(IObservableRemoto modelo, Object o) throws RemoteException {
+        GameEvent e = (GameEvent) o;
         switch (e.getTipo()){
 
             case EventType.todosListos -> {
@@ -99,45 +199,5 @@ public class Controlador implements Observer {
 //                System.out.println("Evento invalido");
 //            }
         }
-    }
-
-    public void ready() {
-        partida.ready(jugador);
-    }
-
-    public void responderParejas(boolean b) {
-        partida.modoParejas(b);
-    }
-
-    public ArrayList<IJugador> pedirJugadores() {
-        return partida.getIJugadores();
-    }
-
-    public ArrayList<Carta> pedirCartasMesa() {
-        return  partida.getCartasMesa();
-    }
-
-    public ArrayList<Carta> pedirCartasJugador(String nombre) {
-        return partida.getCartasJugador(nombre);
-    }
-
-    public void robarPozo(String jugador, int selected) {
-        partida.ligarPozo(selected, jugador);
-    }
-
-    public void agarrarCartaMesa(int mesa, int mano) {
-        partida.ligarCarta(mesa,mano);
-    }
-
-    public void soplar(int c1, int c2) {
-        partida.soplar(c1,c2);
-    }
-
-    public void dejarCarta(int selected) {
-        partida.dejarCarta(selected);
-    }
-
-    public void elegirEquipo(String jugador) throws InvalidInputException{
-        partida.armarEquipos(jugador);
     }
 }
