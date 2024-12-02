@@ -17,7 +17,6 @@ public class Consola extends JFrame implements iVista {
     private JPanel panelPrincipal;
     private JTextArea aJuego;
     private JTextField fConsola;
-    private JButton bAceptar;
     private boolean activo = true;
     private Esperando esperando;
     private boolean ready = false;
@@ -39,7 +38,6 @@ public class Consola extends JFrame implements iVista {
                 fConsola.setText("");
             }
         };
-        bAceptar.addActionListener(l);
         fConsola.addActionListener(l);
 
         menuNombre();
