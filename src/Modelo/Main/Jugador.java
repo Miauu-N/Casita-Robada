@@ -54,9 +54,13 @@ public class Jugador  implements IJugador{
         return pozo;
     }
 
-    public int getPuntos() {
+    public int calcularPuntos() {
         puntos += pozo.getCantidad();
         pozo.limpiarCartas();
+        return puntos;
+    }
+
+    public int getPuntos() {
         return puntos;
     }
 

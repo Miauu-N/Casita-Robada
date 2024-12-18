@@ -16,6 +16,17 @@ public class AppCliente {
 
     public static void main(String[] args) {
         ArrayList<String> ips = Util.getIpDisponibles();
+        String[] tipos = new String[2];
+        tipos[0] = "Consola";
+        tipos[1] = "Grafica";
+        String tipo = (String) JOptionPane.showInputDialog(
+                null,
+                "Seleccione la IU en la que Jugara", "Tipo de IU",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                tipos,
+                "127.0.0.1"
+        );
         String ip = (String) JOptionPane.showInputDialog(
                 null,
                 "Seleccione la IP en la que escuchará peticiones el cliente", "IP del cliente",
@@ -48,7 +59,13 @@ public class AppCliente {
                 null,
                 8888
         );
-        iVista vista = new Consola();
+        iVista vista = null;
+        if (tipo.equals("Consola")) {
+            vista = new Consola();
+        }
+        else{
+            vista = new Grafica();
+        }
         Controlador controlador = vista.getControlador();
         Cliente c = new Cliente(ip, Integer.parseInt(port), ipServidor, Integer.parseInt(portServidor));
         try {

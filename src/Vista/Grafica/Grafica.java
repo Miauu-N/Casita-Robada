@@ -167,4 +167,7 @@ public class Grafica implements iVista {
         }
     }
 
+    public String getRanking() {
+        return controlador.getRanking();
+    }
 }

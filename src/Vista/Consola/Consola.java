@@ -268,13 +268,14 @@ public class Consola extends JFrame implements iVista {
         for (IJugador j : ganadores){
             aJuego.append("\n" + j.getNombre());
         }
+        aJuego.append("\n" + controlador.getRanking());
+        panelPrincipal.updateUI();
     }
 
     @Override
     public void kill() {
         activo = false;
         panelPrincipal.setVisible(false);
-        // todo volver en rmi
         System.exit(0);
     }
 

@@ -1,6 +1,6 @@
 package Modelo.Exceptions;
 
-public class InvalidNameException extends Throwable {
+public class InvalidNameException extends Exception {
     public InvalidNameException() {
     }
 }

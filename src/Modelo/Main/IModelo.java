@@ -34,4 +34,6 @@ public interface IModelo extends IObservableRemoto {
 
     boolean canParejas() throws RemoteException;
 
+    public String getRanking() throws RemoteException;
+
 }

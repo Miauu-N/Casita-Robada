@@ -13,12 +13,12 @@ public class PartidaFinalizada implements IVentana {
 
     public PartidaFinalizada(Grafica grafica, boolean gano, ArrayList<IJugador> ganadores) {
         if (gano){
-            panelPrincipal.setBackground(new Color(0,102,0));
+            panelPrincipal.setBackground(new Color(1, 92, 1));
         }
         else {
-            panelPrincipal.setBackground(new Color(102,0,0));
+            panelPrincipal.setBackground(new Color(96, 0, 0));
         }
-        StringBuilder resultado = new StringBuilder("Los ganadores fueron: ");
+        StringBuilder resultado = new StringBuilder("El/Los ganador/es fueron: ");
         for (IJugador j : ganadores){
             resultado.append("\n").append(j.getNombre());
         }
@@ -27,8 +27,12 @@ public class PartidaFinalizada implements IVentana {
         ganador.setOpaque(false);
         ganador.setForeground(Color.WHITE);
         panelPrincipal.add(ganador);
+
+        JTextArea ar = new JTextArea(grafica.getRanking());
+        ar.setOpaque(false);
+        panelPrincipal.add(ar);
+
         panelPrincipal.updateUI();
-        //todo no sale esto
     }
 
     @Override
@@ -42,4 +46,8 @@ public class PartidaFinalizada implements IVentana {
     }
 
 
+    private void createUIComponents() {
+        panelPrincipal = new JPanel();
+        panelPrincipal.setLayout(new BoxLayout(panelPrincipal, BoxLayout.Y_AXIS));
+    }
 }

@@ -18,7 +18,7 @@ public class Equipo {
     public int sumarPuntos(){
         int resultado = 0;
         for (Jugador j : jugadores){
-            resultado += j.getPuntos();
+            resultado += j.calcularPuntos();
             j.reiniciarPuntos();
         }
         this.puntos += resultado;

@@ -168,7 +168,7 @@ public class Controlador implements IControladorRemoto {
                 }
             }
 
-            case AsignarTurno -> {
+            case cambioDeTurno -> {
                 IJugador turno = (IJugador) e.getContenido();
                 if (jugador.compararNombre(turno)) {
                     grafica.asignarTurno();
@@ -180,13 +180,21 @@ public class Controlador implements IControladorRemoto {
                 grafica.actualizarListos(jugadores);
             }
 
-            case seleccionDeEquipos -> {
+            case todosListosSePuedenParejas -> {
                 if ( ((IJugador) e.getContenido()).compararNombre(jugador) ) {
                     grafica.seleccionarEquipos();
                 }
             }
 
-            case ganador -> grafica.ganador((ArrayList<IJugador>) e.getContenido());
+            case terminoLaPartida -> grafica.ganador((ArrayList<IJugador>) e.getContenido());
+        }
+    }
+
+    public String getRanking() {
+        try {
+            return partida.getRanking();
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
         }
     }
 }

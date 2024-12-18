@@ -3,9 +3,9 @@ package Modelo.Events;
 public enum EventType {
     jugadorListo,
     todosListos,
-    seleccionDeEquipos,
+    todosListosSePuedenParejas,
     empezoElJuego,
     actualizacionDeCartas,
-    AsignarTurno,
-    ganador,
+    cambioDeTurno,
+    terminoLaPartida,
 }

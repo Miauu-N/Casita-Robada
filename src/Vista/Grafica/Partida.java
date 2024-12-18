@@ -120,6 +120,8 @@ public class Partida implements IVentana {
                     if(selected == -1){
                         soplar = true;
                         selected = finalI;
+                        activarMano(false,false);
+                        activarMesa();
                     }
                     else if (soplar) {
                         soplar(finalI);
@@ -157,6 +159,12 @@ public class Partida implements IVentana {
 
 
         pMesa.updateUI();
+    }
+
+    private void activarMesa() {
+        for (JButton b: cartasMesa){
+            b.setEnabled(true);
+        }
     }
 
     private void soplar(int indice) {

@@ -27,7 +27,15 @@ public class Partida extends ObservableRemoto implements IModelo {
     private Mazo mazo;
     private final ArrayList<Equipo> equipos;
     private IJugador host;
+    private Ranking ranking;
 
+    public String getRanking () throws RemoteException{
+        try {
+            return this.ranking.getFist10();
+        } catch (Exception e) {
+            throw new RuntimeException("Se intento hacer un get del ranking antes de que acabe la partida");
+        }
+    }
 
     public Partida(){
         this.jugadores = new ArrayList<>();
@@ -67,7 +75,7 @@ public class Partida extends ObservableRemoto implements IModelo {
     @Override
     public void modoParejas(boolean equipos) throws RemoteException {
         if (equipos){
-            notificarObservadores(new GameEvent(EventType.seleccionDeEquipos,host));
+            notificarObservadores(new GameEvent(EventType.todosListosSePuedenParejas,host));
             parejas = true;
         }
         else{
@@ -155,7 +163,7 @@ public class Partida extends ObservableRemoto implements IModelo {
                 repartir();
                 pasarTurno();
                 notificarObservadores(new GameEvent(EventType.actualizacionDeCartas,getIJugadores()));
-                notificarObservadores(new GameEvent(EventType.AsignarTurno, turno));
+                notificarObservadores(new GameEvent(EventType.cambioDeTurno, turno));
             }
             else {
                 terminarPartida();
@@ -164,7 +172,7 @@ public class Partida extends ObservableRemoto implements IModelo {
         else {
             pasarTurno();
             notificarObservadores(new GameEvent(EventType.actualizacionDeCartas,getIJugadores()));
-            notificarObservadores(new GameEvent(EventType.AsignarTurno, turno));
+            notificarObservadores(new GameEvent(EventType.cambioDeTurno, turno));
         }
     }
 
@@ -178,30 +186,32 @@ public class Partida extends ObservableRemoto implements IModelo {
     }
 
     private void terminarPartida() throws RemoteException {
+        this.ranking = Ranking.getInstanceOf();
+        ranking.update(getIJugadores());
         if (parejas){
             if(equipos.get(0).sumarPuntos() > equipos.get(1).sumarPuntos()){
-                notificarObservadores(new GameEvent(EventType.ganador,equipos.get(0).getJugadoresEncapsulados()));
+                notificarObservadores(new GameEvent(EventType.terminoLaPartida,equipos.get(0).getJugadoresEncapsulados()));
             }
             else if(equipos.get(0).sumarPuntos() < equipos.get(1).sumarPuntos()){
-                notificarObservadores(new GameEvent(EventType.ganador,equipos.get(1).getJugadoresEncapsulados()));
+                notificarObservadores(new GameEvent(EventType.terminoLaPartida,equipos.get(1).getJugadoresEncapsulados()));
             }
             else {
-                notificarObservadores(new GameEvent(EventType.ganador,getIJugadores()));
+                notificarObservadores(new GameEvent(EventType.terminoLaPartida,getIJugadores()));
             }
         }
         else {
-            int max = jugadores.getFirst().getPuntos();
+            int max = jugadores.getFirst().calcularPuntos();
             ArrayList<IJugador> ganadores = new ArrayList<>();
             for (Jugador j : jugadores){
-                if (j.getPuntos() > max){
-                    max = j.getPuntos();
+                if (j.calcularPuntos() > max){
+                    max = j.calcularPuntos();
                     ganadores.clear();
                     ganadores.add(j);
-                } else if (j.getPuntos() == max) {
+                } else if (j.calcularPuntos() == max) {
                     ganadores.add(j);
                 }
             }
-            notificarObservadores(new GameEvent(EventType.ganador,ganadores));
+            notificarObservadores(new GameEvent(EventType.terminoLaPartida,ganadores));
         }
 
     }
@@ -311,26 +321,27 @@ public class Partida extends ObservableRemoto implements IModelo {
 
     @Override
     public void ligarCarta(int cartaMesa, int mano) throws RemoteException{
+        Carta select;
         try {
-            Carta select = turno.getCarta(mano);
-
-            boolean buenaJugada = false;
-
-            if (select.getNumero() == mesa.verCarta(cartaMesa).getNumero()){
-                turno.agregarPozo(mesa.tomarCarta(cartaMesa));
-                turno.agregarPozo(select);
-                terminarTurno();
-                buenaJugada = true;
-            }
-
-            if (!buenaJugada){
-                System.out.println("Jugada equivocada");
-                dejarCarta(select);
-            }
-        } catch (Exception e) {
+            select = turno.getCarta(mano);
+        } catch (IndexOutOfBoundsException e) {
             System.out.println("indice incorrecto");
-            dejarCarta(0);
+            select = turno.getCarta(0);
         }
+        boolean buenaJugada = false;
+
+        if (select.getNumero() == mesa.verCarta(cartaMesa).getNumero()){
+            turno.agregarPozo(mesa.tomarCarta(cartaMesa));
+            turno.agregarPozo(select);
+            terminarTurno();
+            buenaJugada = true;
+        }
+
+        if (!buenaJugada){
+            System.out.println("Jugada equivocada");
+            dejarCarta(select);
+        }
+
 
     }
 

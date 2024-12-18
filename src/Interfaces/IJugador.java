@@ -8,6 +8,8 @@ public interface IJugador extends Serializable {
 
     boolean compararNombre(IJugador p2);
 
+    boolean compararNombre(String p2);
+
     String getNombre();
 
     int getCantCartasEnMano();
@@ -18,4 +20,5 @@ public interface IJugador extends Serializable {
 
     int getCantidadCartasPozo();
 
+    int getPuntos();
 }
